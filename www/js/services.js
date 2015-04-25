@@ -1,40 +1,59 @@
 angular.module('solfit.services', [])
 
 //.factory('Auth',function() { return { isLoggedIn : false}; })
-.factory('AuthenticationService',function() {
+.factory('AuthenticationService',function($http,PARSE_CREDENTIALS) {
   return {
     login: function(credentials) {
+
       console.log(credentials);
-    },
-    logout: function() {
 
-    },
-    signup: function() {
-
-    },
-    isLoggedIn: false
-  }
-})
-.factory('User',function($http,PARSE_CREDENTIALS){
-  return {
-    signup: function() {
-      return $http.get('https://api.parse.com/1/users',{
+      return $http.get('https://api.parse.com/1/login',{
         params:{
-
+          username:credentials.email,
+          password:credentials.password
         },
         headers:{
           'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+          'X-Parse-REST-API-Key':PARSE_CREDENTIALS.REST_API_KEY
+        }
+      }).success(function (data, status, headers, config) {
+        $http.defaults.headers.common.Authorization = data.sessionToken;
+        console.log(data);
+        console.log(status);
+        console.log(headers);
+        console.log(config);
+
+        /*authService.loginConfirmed(data, function(config) {  // Step 2 & 3
+          config.headers.Authorization = data.sessionToken;
+          return config;
+        });*/
+      });
+    },
+    logout: function() {
+      delete $http.defaults.headers.common.Authorization;
+    },
+    signup: function(profile) {
+      console.log(profile);
+      profile.email = profile.username;
+      return $http.post('https://api.parse.com/1/users',profile,{
+        headers:{
+          'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
           'X-Parse-REST-API-Key':PARSE_CREDENTIALS.REST_API_KEY,
+          'Content-Type':'application/json'
         }
       });
     },
-    login: function() {
-
-    },
-    logout: function() {
-
+    isLoggedIn: function() {
+      //console.log($http.defaults.headers.common.Authorization)
+      if ($http.defaults.headers.common.Authorization)
+        return true;
+      else
+        return false;
     }
-  };
+  }
+})
+.factory('User',function($http,PARSE_CREDENTIALS){
+
 }).value('PARSE_CREDENTIALS',{
     APP_ID: 'CjxuaHciI7gfI9dheTCaDDmRJmyW8jnS4XO4zhFj',
     REST_API_KEY:'RO2WVdpkGRQF73ahQSRh95x9DmOzhXxbkOGDdqDt'

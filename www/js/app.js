@@ -19,49 +19,14 @@ angular.module('solfit', ['ionic', 'solfit.controllers', 'solfit.services'])
       StatusBar.styleDefault();
     }
   });
-  $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState) {
-      
-      var shouldLogin = toState.data !== undefined
-                    && toState.data.requireLogin 
-                    && !AuthenticationService.isLoggedIn ;
-      
-      //shouldLogin = true;
-      // NOT authenticated - wants any private stuff
-      if(shouldLogin)
-      {
-        $state.go('login');
-        event.preventDefault();
-        return;
-      }
-      // authenticated (previously) comming not to root main
-      if(AuthenticationService.isLoggedIn) 
-      {
-        var shouldGoToMain = fromState.name === ""
-                          && toState.name !== "main" ;
-          
-        if (shouldGoToMain)
-        {
-            $state.go('tab-chats');
-            event.preventDefault();
-        } 
-        return;
-      }
-      
-      // UNauthenticated (previously) comming not to root public 
-      /*
-      var shouldGoToPublic = fromState.name === ""
-                        && toState.name !== "public"
-                        && toState.name !== "login" ;
-        
-      if(shouldGoToPublic)
-      {
-          $state.go('public');console.log('p')
-          event.preventDefault();
-      } 
-      */
-      
-      // unmanaged
-    });
+  $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
+    if (toState.authenticate && !AuthenticationService.isLoggedIn()){
+      // User isn’t authenticated
+      console.log(AuthenticationService.isLoggedIn());
+      $state.transitionTo("login");
+      event.preventDefault(); 
+    }
+  });
 })
 
 .config(function($stateProvider, $urlRouterProvider) {
@@ -76,7 +41,8 @@ angular.module('solfit', ['ionic', 'solfit.controllers', 'solfit.services'])
     .state('tab', {
     url: "/tab",
     abstract: true,
-    templateUrl: "templates/tabs.html"
+    templateUrl: "templates/tabs.html",
+    authenticate: true
   })
 
   // Each tab has its own nav history stack:
@@ -88,7 +54,8 @@ angular.module('solfit', ['ionic', 'solfit.controllers', 'solfit.services'])
         templateUrl: 'templates/tab-dash.html',
         controller: 'DashCtrl'
       }
-    }
+    },
+    authenticate: true
   })
   .state('tab.log', {
       url: '/log',
@@ -97,7 +64,8 @@ angular.module('solfit', ['ionic', 'solfit.controllers', 'solfit.services'])
               templateUrl: 'templates/tab-log.html',
               controller: 'LogCtrl'
           }
-      }
+      },
+    authenticate: true
   })
   .state('tab.standings', {
       url: '/standings',
@@ -115,15 +83,31 @@ angular.module('solfit', ['ionic', 'solfit.controllers', 'solfit.services'])
         templateUrl: 'templates/tab-account.html',
         controller: 'AccountCtrl'
       }
-    }
+    },
+    authenticate: true
   })
 
-  // the log-on screen
+// the log-on screen
   .state('login',{
       url : '/login',
       templateUrl : 'templates/login.html',
-      controller : 'LoginCtrl'
+      controller : 'LoginCtrl',
+      authenticate: false
     })
+
+  // the signup screen
+  .state('signup',{
+      url : '/signup',
+      templateUrl : 'templates/signup.html',
+      controller : 'LoginCtrl',
+      authenticate: false
+    })
+
+  .state('logout',{
+    url : '/logout',
+    controller: 'LogoutCtrl',
+    authenticate: true
+  })
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/tab/dash');

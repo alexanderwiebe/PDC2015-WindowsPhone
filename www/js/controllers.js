@@ -16,13 +16,44 @@ angular.module('solfit.controllers', [])
   };
 })
 
-.controller('LoginCtrl',['$scope', 'AuthenticationService', function($scope, AuthenticationService) 
+.controller('LogoutCtrl', function($scope, AuthenticationService)
+{
+  console.log("logging out");
+  AuthenticationService.logout();
+  //$state.go('login', {}, {reload: true, inherit: false});
+  $route.reload();
+})
+
+.controller('LoginCtrl', function($scope, AuthenticationService, $state) 
 { 
   $scope.auth = AuthenticationService;
 
   $scope.login = function(credentials) {
-  	console.log("logging in");
-  	AuthenticationService.login(credentials);
+    console.log("logging in");
+    var loginPromise = AuthenticationService.login(credentials);
+    loginPromise.then(
+      function(data) {
+        console.log('login successful');
+        $state.transitionTo('tab.dash');
+      },
+      function(error) {
+        console.log(error);
+      }
+    );
   }
 
-}])
+  $scope.signup = function(profile) {
+    console.log("signing up");
+    var signupPromise = AuthenticationService.signup(profile);
+
+    signupPromise.then(
+      function(data) {
+        console.log(data);
+      },
+      function(error) {
+        console.log(error);
+      }
+    );
+  }
+
+})

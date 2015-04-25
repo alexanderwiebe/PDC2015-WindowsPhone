@@ -1,0 +1,29 @@
+<ion-view view-title="Signup">
+  <ion-content>
+  <form ng-submit="signup(profile)" novalidate>
+	  <div class="list" style="padding-top: 25px;">	  	
+		  <label class="item item-input" style="border: 0;">
+		    <span class="input-label">Email</span>
+		    <input type="text" ng-model="profile.username" required placeholder="email@email.com">
+		  </label>
+		  <label class="item item-input" style="border: 0;">
+		    <span class="input-label">Password</span>
+		    <input type="password" ng-model="profile.password" required placeholder="•••••••••">
+		  </label>
+		  <label class="item item-input" style="border: 0;">
+		    <span class="input-label">Name</span>
+		    <input type="text" ng-model="profile.name" required placeholder="Tito Puente">
+		  </label>
+		  <label class="item item-input" style="border: 0;">
+		    <span class="input-label">Company Code</span>
+		    <input type="text" ng-model="profile.code" required placeholder="####">
+		  </label>
+		</div>
+		<div style="padding-left: 10px; padding-right: 10px;">
+		  <button class="button button-block button-clear button-positive">
+			  Sign Up!
+			</button>
+		</div>
+	</form>
+  </ion-content>
+</ion-view>
