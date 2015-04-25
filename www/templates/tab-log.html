@@ -1,9 +1,33 @@
-<ion-view view-title="Logging">
+<ion-view view-title="Log your workout" class="pdc-log">
   <ion-content>
+    <div class="intro">
+      <h4>Enter what applies to your workout</h4>
+    </div>
     <ion-list>
-    <ion-toggle  ng-model="settings.enableFriends">
-        Enter your data
-    </ion-toggle>
+      <label class="item item-input">
+        <span class="input-label">Workout Event</span>
+        <input type="text">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Duration</span>
+        <input type="text">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Distance</span>
+        <input type="text">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Weight</span>
+        <input type="text">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Sets</span>
+        <input type="text">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Reps</span>
+        <input type="text">
+      </label>
     </ion-list>
   </ion-content>
 </ion-view>

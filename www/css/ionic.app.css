@@ -15,6 +15,15 @@ $assertive:                       #ef473a !default;
 $royal:                           #886aea !default;
 $dark:                            #444 !default;
 */
+/*login page*/
+/*account tab*/
+/*dash tab*/
+/*log tab*/
+.pdc-log .intro h4 {
+  text-align: center; }
+
+/*standings tab*/
+/*tab page*/
 /*!
   Ionicons, v2.0.1
   Created by Ben Sperry for the Ionic Framework, http://ionicons.com/

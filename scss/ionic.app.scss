@@ -15,6 +15,34 @@ $royal:                           #886aea !default;
 $dark:                            #444 !default;
 */
 
+
+/*login page*/
+.pdc-login {
+}
+
+/*account tab*/
+.pdc-account {
+}
+
+/*dash tab*/
+.pdc-dash {
+}
+
+/*log tab*/
+.pdc-log {
+  .intro h4{
+    text-align:center;
+  }
+}
+
+/*standings tab*/
+.pdc-standings {
+}
+
+/*tab page*/
+.pdc-tabs {
+}
+
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
 
