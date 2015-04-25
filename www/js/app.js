@@ -90,7 +90,15 @@ angular.module('solfit', ['ionic', 'solfit.controllers', 'solfit.services'])
       }
     }
   })
-
+  .state('tab.log', {
+      url: '/log',
+      views: {
+          'tab-log': {
+              templateUrl: 'templates/tab-log.html',
+              controller: 'LogCtrl'
+          }
+      }
+  })
   .state('tab.chats', {
       url: '/chats',
       views: {
@@ -109,7 +117,15 @@ angular.module('solfit', ['ionic', 'solfit.controllers', 'solfit.services'])
         }
       }
     })
-
+  .state('tab.standings', {
+      url: '/standings',
+      views: {
+          'tab-standings': {
+              templateUrl: 'templates/tab-standings.html',
+              controller: 'StandingsCtrl'
+          }
+      }
+  })
   .state('tab.account', {
     url: '/account',
     views: {
@@ -124,7 +140,7 @@ angular.module('solfit', ['ionic', 'solfit.controllers', 'solfit.services'])
   .state('login',{
       url : '/login',
       templateUrl : 'templates/login.html',
-      controller : 'LoginCtrl',
+      controller : 'LoginCtrl'
     })
 
   // if none of the above states are matched, use this as the fallback

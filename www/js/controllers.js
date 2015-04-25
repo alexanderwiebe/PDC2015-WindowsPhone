@@ -13,6 +13,14 @@ angular.module('solfit.controllers', [])
   $scope.chat = Chats.get($stateParams.chatId);
 })
 
+.controller('LogCtrl', function($scope) {
+    $scope.hello = 'sup';
+})
+
+.controller('StandingsCtrl', function($scope) {
+    $scope.hello = 'world';
+})
+
 .controller('AccountCtrl', function($scope) {
   $scope.settings = {
     enableFriends: true
