@@ -1,5 +1,11 @@
 angular.module('solfit.services', [])
+.factory('persistanceService', function(){
+  return {
+    save: function(){
 
+    }
+  }
+})
 //.factory('Auth',function() { return { isLoggedIn : false}; })
 .factory('AuthenticationService',function($http,PARSE_CREDENTIALS) {
   return {

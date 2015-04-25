@@ -33,6 +33,13 @@ $dark:                            #444 !default;
   .intro h4{
     text-align:center;
   }
+  .pdc-duration-input input{
+    border-bottom:thin solid black;
+  }
+  .pdc-save-button button{
+    margin-left:auto;
+    margin-right:auto;
+  }
 }
 
 /*standings tab*/

@@ -3,7 +3,27 @@ angular.module('solfit.controllers', [])
 .controller('DashCtrl', function($scope) {})
 
 .controller('LogCtrl', function($scope) {
-    $scope.hello = 'sup';
+    $scope.init = function(){
+      $scope.workout = {
+        event:'',
+        duration:{
+          hour:'',
+          minute:'',
+          second:''
+        },
+        distance:'',
+        weights:'',
+        sets:'',
+        reps:'',
+        feelings:50,
+        notes:''
+      };
+    };
+    $scope.init();
+
+    $scope.pdcSaveWorkout = function(){
+      console.log($scope.workout);
+    };
 })
 
 .controller('StandingsCtrl', function($scope) {

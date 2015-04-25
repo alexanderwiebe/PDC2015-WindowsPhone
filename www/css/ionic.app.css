@@ -21,6 +21,11 @@ $dark:                            #444 !default;
 /*log tab*/
 .pdc-log .intro h4 {
   text-align: center; }
+.pdc-log .pdc-duration-input input {
+  border-bottom: thin solid black; }
+.pdc-log .pdc-save-button button {
+  margin-left: auto;
+  margin-right: auto; }
 
 /*standings tab*/
 /*tab page*/

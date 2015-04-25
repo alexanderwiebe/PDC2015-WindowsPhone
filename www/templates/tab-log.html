@@ -1,32 +1,54 @@
 <ion-view view-title="Log your workout" class="pdc-log">
   <ion-content>
+    <div class="quick-picks">
+
+    </div>
     <div class="intro">
       <h4>Enter what applies to your workout</h4>
     </div>
     <ion-list>
       <label class="item item-input">
-        <span class="input-label">Workout Event</span>
-        <input type="text">
+        <span class="input-label">Event</span>
+        <input type="text" ng-model="workout.event">
       </label>
-      <label class="item item-input">
+      <label class="item item-input pdc-duration-input">
         <span class="input-label">Duration</span>
-        <input type="text">
+        <input type="number" ng-model="workout.duration.hour">
+        <span>:</span>
+        <input type="number" ng-model="workout.duration.minute">
+        <span>:</span>
+        <input type="number" ng-model="workout.duration.second">
       </label>
       <label class="item item-input">
         <span class="input-label">Distance</span>
-        <input type="text">
+        <input type="number" ng-model="workout.distance">
       </label>
       <label class="item item-input">
-        <span class="input-label">Weight</span>
-        <input type="text">
+        <span class="input-label">Weights</span>
+        <input type="number" ng-model="workout.weights">
       </label>
       <label class="item item-input">
         <span class="input-label">Sets</span>
-        <input type="text">
+        <input type="number" ng-model="workout.sets">
       </label>
       <label class="item item-input">
         <span class="input-label">Reps</span>
-        <input type="text">
+        <input type="number" ng-model="workout.reps">
+      </label>
+      <label class="item range range-positive">
+        <span class="input-label">Feelings</span>
+        <i class="icon ion-sad-outline"></i>
+        <input type="range" name="feelings" min="0" max="100" ng-model="workout.feelings">
+        <i class="icon ion-happy-outline"></i>
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Notes</span>
+        <input type="text" ng-model="workout.notes">
+      </label>
+      <label class="item item-input pdc-save-button">
+        <button class="button button-balanced" ng-click="pdcSaveWorkout()">
+          Save Workout!
+        </button>
       </label>
     </ion-list>
   </ion-content>
