@@ -23,7 +23,7 @@ angular.module('solfit.services', [])
   }
 })
 //.factory('Auth',function() { return { isLoggedIn : false}; })
-.factory('AuthenticationService',function($http, $cookies, PARSE_CREDENTIALS) {
+.factory('AuthenticationService',function($http, $cookies, $location, PARSE_CREDENTIALS) {
   return {
     login: function(credentials) {
 
@@ -54,7 +54,9 @@ angular.module('solfit.services', [])
       });
     },
     logout: function() {
-      delete $http.defaults.headers.common.Authorization;
+      $cookies['currentSession'] = undefined;
+      delete $cookies['currentSession'];
+      $location.path('/login');
     },
     signup: function(profile) {
       console.log(profile);

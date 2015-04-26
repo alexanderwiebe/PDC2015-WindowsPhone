@@ -45,7 +45,8 @@ angular.module('solfit.controllers', [])
   $cookies['currentSession'] = null;
   AuthenticationService.logout();
   //$state.go('login', {}, {reload: true, inherit: false});
-  $route.reload();
+  //this is undefinded
+  // $route.reload();
 })
 
 .controller('LoginCtrl', function($scope, AuthenticationService, $state) 
