@@ -2,7 +2,7 @@ angular.module('solfit.controllers', [])
 
 .controller('DashCtrl', function($scope) {})
 
-.controller('LogCtrl', function($scope) {
+.controller('LogCtrl', function($scope, persistanceService) {
     $scope.init = function(){
       $scope.workout = {
         event:'',
@@ -22,7 +22,10 @@ angular.module('solfit.controllers', [])
     $scope.init();
 
     $scope.pdcSaveWorkout = function(){
-      console.log($scope.workout);
+      persistanceService.validate().then(function(d) {
+        $scope.currentUser = d.data;
+        console.log($scope.currentUser);
+      });
     };
 })
 
@@ -36,9 +39,10 @@ angular.module('solfit.controllers', [])
   };
 })
 
-.controller('LogoutCtrl', function($scope, AuthenticationService)
+.controller('LogoutCtrl', function($scope, $cookies, AuthenticationService)
 {
   console.log("logging out");
+  $cookies['currentSession'] = null;
   AuthenticationService.logout();
   //$state.go('login', {}, {reload: true, inherit: false});
   $route.reload();

@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('solfit', ['ionic', 'solfit.controllers', 'solfit.services'])
+angular.module('solfit', ['ionic', 'solfit.controllers', 'solfit.services', 'ngCookies'])
 
 .run(function($ionicPlatform,$rootScope,$state,$location,AuthenticationService) {
   $ionicPlatform.ready(function() {
@@ -38,7 +38,7 @@ angular.module('solfit', ['ionic', 'solfit.controllers', 'solfit.services'])
   $stateProvider
 
   // setup an abstract state for the tabs directive
-    .state('tab', {
+  .state('tab', {
     url: "/tab",
     abstract: true,
     templateUrl: "templates/tabs.html",
@@ -74,7 +74,8 @@ angular.module('solfit', ['ionic', 'solfit.controllers', 'solfit.services'])
               templateUrl: 'templates/tab-standings.html',
               controller: 'StandingsCtrl'
           }
-      }
+      },
+      authenticate: true
   })
   .state('tab.account', {
     url: '/account',

@@ -1,13 +1,29 @@
 angular.module('solfit.services', [])
-.factory('persistanceService', function(){
+.factory('persistanceService', function($http, $cookies, PARSE_CREDENTIALS){
   return {
+    validate: function(){
+      return $http.get('https://api.parse.com/1/users/me',{
+        headers:{
+          'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+          'X-Parse-REST-API-Key':PARSE_CREDENTIALS.REST_API_KEY,
+          'X-Parse-Session-Token':$cookies['currentSession']
+        }
+      }).success(function(response){
+        if(response.error){
+          return false;
+        }
+        return true;
+      }).error(function(response){
+        return false;
+      });
+    },
     save: function(){
 
     }
   }
 })
 //.factory('Auth',function() { return { isLoggedIn : false}; })
-.factory('AuthenticationService',function($http,PARSE_CREDENTIALS) {
+.factory('AuthenticationService',function($http, $cookies, PARSE_CREDENTIALS) {
   return {
     login: function(credentials) {
 
@@ -23,11 +39,13 @@ angular.module('solfit.services', [])
           'X-Parse-REST-API-Key':PARSE_CREDENTIALS.REST_API_KEY
         }
       }).success(function (data, status, headers, config) {
-        $http.defaults.headers.common.Authorization = data.sessionToken;
+        //$http.defaults.headers.common.Authorization = data.sessionToken;
         console.log(data);
         console.log(status);
-        console.log(headers);
+        console.log(headers());
         console.log(config);
+
+        $cookies['currentSession'] = data.sessionToken;//save session
 
         /*authService.loginConfirmed(data, function(config) {  // Step 2 & 3
           config.headers.Authorization = data.sessionToken;
@@ -51,7 +69,8 @@ angular.module('solfit.services', [])
     },
     isLoggedIn: function() {
       //console.log($http.defaults.headers.common.Authorization)
-      if ($http.defaults.headers.common.Authorization)
+      //if ($http.defaults.headers.common.Authorization)
+      if($cookies['currentSession'])
         return true;
       else
         return false;
