@@ -11,7 +11,7 @@
       <div class="item item-divider">Recent Updates</div>
       <div class="item item-body" ng-repeat="workout in workouts">
         <div>
-          {{workout.updatedAt}} {{workout.event}} <b>{{workout.score}}</b>
+          {{workout.updatedAt | date: 'longDate'}} {{workout.event}} <b>{{workout.score}}</b>
         </div>
       </div>
     </div>
