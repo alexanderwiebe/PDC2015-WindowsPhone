@@ -6,10 +6,13 @@ angular.module('solfit.controllers', [])
         $scope.currentUser = d.data;
         console.log($scope.currentUser);
       }).then(function () {
-        persistanceService.query('workout', $scope.currentUser.objectId).then(function (result) {
+        var queryValue = {"userId":$scope.currentUser.objectId};
+        persistanceService.query('workout', queryValue)
+          .then(function (result) {
           //success
           console.log('success');
           $scope.workouts = result.data.results;
+          $scope.score = 1234;
           console.log($scope.workouts);
         }, function (errorMsg) {
           //failure
@@ -81,8 +84,8 @@ angular.module('solfit.controllers', [])
   // $route.reload();
 })
 
-.controller('LoginCtrl', function($scope, AuthenticationService, $state) 
-{ 
+.controller('LoginCtrl', function($scope, AuthenticationService, $state)
+{
   $scope.auth = AuthenticationService;
 
   $scope.login = function(credentials) {

@@ -18,6 +18,14 @@ $dark:                            #444 !default;
 /*login page*/
 /*account tab*/
 /*dash tab*/
+.pdc-dash .user-score {
+  margin-top: -5vh;
+  margin-bottom: -5vh; }
+  .pdc-dash .user-score span {
+    color: greenyellow;
+    font-size: 20vh;
+    line-height: normal; }
+
 /*log tab*/
 .pdc-log .intro h4 {
   text-align: center; }

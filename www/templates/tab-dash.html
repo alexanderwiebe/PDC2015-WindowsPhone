@@ -1,10 +1,17 @@
-<ion-view view-title="Dashboard">
+<ion-view view-title="Dashboard" class="pdc-dash">
   <ion-content class="padding">
     <div class="list card">
-      <div class="item item-divider">Recent Updates</div>
       <div class="item item-body">
+        <div class="user-score text-center">
+          <span>{{score}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="list card">
+      <div class="item item-divider">Recent Updates</div>
+      <div class="item item-body" ng-repeat="workout in workouts">
         <div>
-          There is a fire in <b>sector 3</b>
+          {{workout.updatedAt}} {{workout.event}} <b>{{workout.score}}</b>
         </div>
       </div>
     </div>

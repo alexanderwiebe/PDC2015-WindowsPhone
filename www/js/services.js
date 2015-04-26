@@ -40,12 +40,13 @@ angular.module('solfit.services', [])
         return false;
       });
     },
-    query: function(getItHere, withUserObjectID){
+
+    query: function(getItHere, withThisQuery){
       return $http({
         method:'get',
         url:'https://api.parse.com/1/classes/'+getItHere,
         params:{
-          'where':{"userId":withUserObjectID}
+          'where':withThisQuery
         },
         headers:{
           'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
