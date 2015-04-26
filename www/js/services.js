@@ -1,6 +1,10 @@
 angular.module('solfit.services', [])
 .factory('persistanceService', function($http, $cookies, PARSE_CREDENTIALS){
   return {
+    /**
+     * uses the 'currentSession' cookie to get current user
+     * @returns {current user}
+     */
     validate: function(){
       return $http.get('https://api.parse.com/1/users/me',{
         headers:{
@@ -12,13 +16,29 @@ angular.module('solfit.services', [])
         if(response.error){
           return false;
         }
-        return true;
       }).error(function(response){
         return false;
       });
     },
-    save: function(){
 
+    save: function(saveThis, saveItHere, withUserObjectID){
+      saveThis['userID'] = saveThis['userID'] || withUserObjectID;
+      return $http({
+        method:'post',
+        url:'https://api.parse.com/1/classes/'+saveItHere,
+        headers:{
+          'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+          'X-Parse-REST-API-Key':PARSE_CREDENTIALS.REST_API_KEY,
+          'Content-Type': 'application/json'
+        },
+        data:saveThis
+      }).success(function(response){
+        if(response.error){
+          return false;
+        }
+      }).error(function(response){
+        return false;
+      });
     }
   }
 })

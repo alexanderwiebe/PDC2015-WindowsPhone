@@ -25,6 +25,19 @@ angular.module('solfit.controllers', [])
       persistanceService.validate().then(function(d) {
         $scope.currentUser = d.data;
         console.log($scope.currentUser);
+      }).then(function(){
+        $scope.workout.duration = $scope.workout.duration.hour + ':' +
+          $scope.workout.duration.minute + ':' +
+          $scope.workout.duration.second;
+        $scope.workout.feelings = parseInt($scope.workout.feelings);
+        persistanceService.save($scope.workout,'workout',$scope.currentUser.objectId).then(function(i){
+          //success
+          console.log('success');
+          $scope.workout.objectId = i.objectId;
+        },function(errorMsg){
+          //failure
+          console.log('failure');
+        });
       });
     };
 })
