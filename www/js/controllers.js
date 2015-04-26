@@ -1,6 +1,25 @@
 angular.module('solfit.controllers', [])
 
-.controller('DashCtrl', function($scope) {})
+.controller('DashCtrl', function($scope, persistanceService) {
+    $scope.init = function() {
+      persistanceService.validate().then(function (d) {
+        $scope.currentUser = d.data;
+        console.log($scope.currentUser);
+      }).then(function () {
+        persistanceService.query('workout', $scope.currentUser.objectId).then(function (result) {
+          //success
+          console.log('success');
+          $scope.workouts = result.data.results;
+          console.log($scope.workouts);
+        }, function (errorMsg) {
+          //failure
+          console.log('failure');
+          console.log(errorMsg);
+        });
+      });
+    };
+    $scope.init();
+})
 
 .controller('LogCtrl', function($scope, persistanceService) {
     $scope.init = function(){

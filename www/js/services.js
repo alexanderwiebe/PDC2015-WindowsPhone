@@ -22,7 +22,7 @@ angular.module('solfit.services', [])
     },
 
     save: function(saveThis, saveItHere, withUserObjectID){
-      saveThis['userID'] = saveThis['userID'] || withUserObjectID;
+      saveThis['userId'] = saveThis['userId'] || withUserObjectID;
       return $http({
         method:'post',
         url:'https://api.parse.com/1/classes/'+saveItHere,
@@ -32,6 +32,25 @@ angular.module('solfit.services', [])
           'Content-Type': 'application/json'
         },
         data:saveThis
+      }).success(function(response){
+        if(response.error){
+          return false;
+        }
+      }).error(function(response){
+        return false;
+      });
+    },
+    query: function(getItHere, withUserObjectID){
+      return $http({
+        method:'get',
+        url:'https://api.parse.com/1/classes/'+getItHere,
+        params:{
+          'where':{"userId":withUserObjectID}
+        },
+        headers:{
+          'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+          'X-Parse-REST-API-Key':PARSE_CREDENTIALS.REST_API_KEY
+        }
       }).success(function(response){
         if(response.error){
           return false;
