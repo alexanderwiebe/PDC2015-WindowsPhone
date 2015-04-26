@@ -78,6 +78,17 @@ angular.module('solfit.controllers', [])
   };
 })
 
+.controller('TeamCtrl', function($scope) {
+  $scope.teams = [
+    {
+      name: "Walkers",
+    },
+    {
+      name: "Runners"
+    }
+  ];
+})
+
 .controller('LogoutCtrl', function($scope, $cookies, $location, AuthenticationService)
 {
   console.log("logging out");

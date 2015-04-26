@@ -87,6 +87,16 @@ angular.module('solfit', ['ionic', 'solfit.controllers', 'solfit.services', 'ngC
     },
     authenticate: true
   })
+  .state('tab.teams', {
+    url: '/teams',
+    views: {
+      'tab-teams': {
+        templateUrl: 'templates/tab-teams.html',
+        controller: 'TeamCtrl'
+      }
+    },
+    authenticate: true
+  })
 
 // the log-on screen
   .state('login',{
