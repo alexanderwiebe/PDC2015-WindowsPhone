@@ -107,6 +107,7 @@ angular.module('solfit', ['ionic', 'solfit.controllers', 'solfit.services', 'ngC
   .state('logout',{
     url : '/logout',
     controller: 'LogoutCtrl',
+    template: '',
     authenticate: true
   })
 

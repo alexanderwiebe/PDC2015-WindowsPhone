@@ -95,9 +95,20 @@ angular.module('solfit.services', [])
       });
     },
     logout: function() {
+      var sessionToken = $cookies['currentSession'];
+      console.log(sessionToken);
+
       $cookies['currentSession'] = undefined;
       delete $cookies['currentSession'];
       $location.path('/login');
+      
+      return $http.post('https://api.parse.com/1/logout','',{
+        headers: {
+          'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+          'X-Parse-REST-API-Key':PARSE_CREDENTIALS.REST_API_KEY,
+          "X-Parse-Session-Token": sessionToken
+        }
+      });
     },
     signup: function(profile) {
       console.log(profile);

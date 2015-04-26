@@ -78,14 +78,28 @@ angular.module('solfit.controllers', [])
   };
 })
 
-.controller('LogoutCtrl', function($scope, $cookies, AuthenticationService)
+.controller('LogoutCtrl', function($scope, $cookies, $location, AuthenticationService)
 {
   console.log("logging out");
-  $cookies['currentSession'] = null;
-  AuthenticationService.logout();
-  //$state.go('login', {}, {reload: true, inherit: false});
-  //this is undefinded
-  // $route.reload();
+  //AuthenticationService.logout();
+  var logoutPromise = AuthenticationService.logout();
+  logoutPromise.then(
+    function(data) {
+      console.log('logout successful');
+    }
+  );
+
+  /*
+  logoutPromise.then(
+    function(data) {
+      $cookies['currentSession'] = undefined;
+      delete $cookies['currentSession'];
+      $location.path('/login');
+    },
+    function(error) {
+      console.log(error);
+    }
+  );*/
 })
 
 .controller('LoginCtrl', function($scope, AuthenticationService, $state)
