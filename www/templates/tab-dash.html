@@ -9,9 +9,9 @@
     </div>
     <div class="list card">
       <div class="item item-divider">Recent Updates</div>
-      <div class="item item-body" ng-repeat="workout in workouts">
+      <div class="item item-body" ng-repeat="workout in workouts | limitTo: 5">
         <div>
-          {{workout.updatedAt | date: 'longDate'}} {{workout.event}} <b>{{workout.score}}</b>
+          {{workout.updatedAt | date: 'longDate'}}: <b>{{workout.event}}</b> <b>{{workout.score}}</b>
         </div>
       </div>
     </div>

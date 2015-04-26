@@ -22,6 +22,10 @@ angular.module('solfit.controllers', [])
       });
     };
     $scope.init();
+
+    $scope.$on('$ionicView.enter', function(){
+      $scope.init();
+    });
 })
 
 .controller('LogCtrl', function($scope, persistanceService) {
@@ -33,10 +37,10 @@ angular.module('solfit.controllers', [])
           minute:'',
           second:''
         },
-        distance:'',
-        weights:'',
-        sets:'',
-        reps:'',
+        distance:0,
+        weights:0,
+        sets:0,
+        reps:0,
         feelings:50,
         notes:''
       };
