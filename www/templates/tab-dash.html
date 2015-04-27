@@ -9,7 +9,7 @@
     </div>
     <div class="list card">
       <div class="item item-divider">Recent Updates</div>
-      <div class="item item-body" ng-repeat="workout in workouts | limitTo: 5">
+      <div class="item item-body" ng-repeat="workout in workouts | limitTo: 7">
         <div>
           {{workout.updatedAt | date: 'longDate'}}: <b>{{workout.event}}</b> <b>{{workout.score}}</b>
         </div>

@@ -7,7 +7,7 @@ angular.module('solfit.controllers', [])
         console.log($scope.currentUser);
       }).then(function () {
         var queryValue = {"userId":$scope.currentUser.objectId};
-        persistanceService.query('workout', queryValue)
+        persistanceService.query('workout', queryValue, '-updatedAt', 7)
           .then(function (result) {
           //success
           console.log('success');
@@ -56,6 +56,17 @@ angular.module('solfit.controllers', [])
           $scope.workout.duration.minute + ':' +
           $scope.workout.duration.second;
         $scope.workout.feelings = parseInt($scope.workout.feelings);
+        $scope.workout.score = 0;
+        /*
+        * yeah this will change
+        * used 75 calories per km
+        * average 7 calories per lift
+        * */
+        if(distance){
+          $scope.workout.score = 75 * $scope.workout.distance;
+        }else{
+          $scope.workout.score = 7 * $scope.workout.sets * $scope.workout.reps;
+        }
         persistanceService.save($scope.workout,'workout',$scope.currentUser.objectId).then(function(i){
           //success
           console.log('success');
