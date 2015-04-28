@@ -81,7 +81,7 @@ angular.module('solfit.services', [])
         return false;
       });
     },
-    updateArray: function(updateThis, withThisName, updateItHere, withThisId, useThisOperation){
+    updateArray: function(updateItHere, withThisId, useThisOperation){
       return $http({
         method:'put',
         url:'https://api.parse.com/1/classes/'+updateItHere+'/'+withThisId,

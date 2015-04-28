@@ -116,6 +116,8 @@ angular.module('solfit.controllers', [])
 
 .controller('TeamCtrl', function($scope,persistanceService) {
   $scope.init = function() {
+    $scope.newTeam = {};
+    $scope.newTeam.Name = '';
     persistanceService.validate().then(function (d) {
       $scope.currentUser = d.data;
       console.log($scope.currentUser);
@@ -136,9 +138,27 @@ angular.module('solfit.controllers', [])
   };
   $scope.init();
 
+  $scope.leaveTeam = function(leaveThisTeam){
+    var updateOp = {"Members":{"__op":"Remove","objects":[$scope.currentUser.objectId]}};
+    persistanceService.updateArray('Team', leaveThisTeam.objectId, updateOp).then(function(d){
+      $scope.init();
+      console.log('hey added you to the team');
+    });
+  };
+  $scope.createTeam = function(){
+    $scope.newTeam.Members = [$scope.currentUser.objectId];
+    persistanceService.save($scope.newTeam,'Team',$scope.currentUser.objectId).then(function(i){
+      //success
+      console.log('success');
+      $scope.init();
+    },function(errorMsg){
+      //failure
+      console.log('failure');
+    });
+  };
   $scope.joinTeam = function(joinThisTeam){
     var updateOp = {"Members":{"__op":"Add","objects":[$scope.currentUser.objectId]}};
-    persistanceService.updateArray($scope.currentUser.objectId, 'Members', 'Team', joinThisTeam.objectId, updateOp).then(function(d){
+    persistanceService.updateArray('Team', joinThisTeam.objectId, updateOp).then(function(d){
       $scope.init();
       console.log('hey added you to the team');
     });

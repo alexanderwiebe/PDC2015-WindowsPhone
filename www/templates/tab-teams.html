@@ -7,7 +7,8 @@
           <label class="item-input-wrapper">
             {{team.Name}}
           </label>
-          <button class="button button-small icon ion-ios-minus-outline"></button>
+          <button class="button button-small icon ion-ios-minus-outline"
+            ng-click="leaveTeam(team)"></button>
         </div>
       </div>
     </div>
@@ -25,9 +26,10 @@
       <div class="item item-divider">Make Team</div>
       <div class="item item-input-inset">
         <label class="item-input-wrapper">
-          <input type="text" ng-model="newTeam.name" placeholder="Team name">
+          <input type="text" ng-model="newTeam.Name" placeholder="Team name">
         </label>
-        <button class="button button-small icon ion-ios-plus-outline"></button>
+        <button class="button button-small icon ion-ios-plus-outline"
+          ng-click="createTeam()"></button>
       </div>
     </div>
   </ion-content>
