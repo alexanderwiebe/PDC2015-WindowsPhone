@@ -61,6 +61,43 @@ angular.module('solfit.services', [])
       }).error(function(response){
         return false;
       });
+    },
+
+    update: function(updateThis, withThisName, updateItHere, withThisId){
+      return $http({
+        method:'put',
+        url:'https://api.parse.com/1/classes/'+updateItHere+'/'+withThisId,
+        headers:{
+          'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+          'X-Parse-REST-API-Key':PARSE_CREDENTIALS.REST_API_KEY,
+          'Content-Type':'application/json'
+        },
+        data:{withThisName:updateThis}
+      }).success(function(response){
+        if(response.error){
+          return false;
+        }
+      }).error(function(response){
+        return false;
+      });
+    },
+    updateArray: function(updateThis, withThisName, updateItHere, withThisId, useThisOperation){
+      return $http({
+        method:'put',
+        url:'https://api.parse.com/1/classes/'+updateItHere+'/'+withThisId,
+        headers:{
+          'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+          'X-Parse-REST-API-Key':PARSE_CREDENTIALS.REST_API_KEY,
+          'Content-Type':'application/json'
+        },
+        data:useThisOperation
+      }).success(function(response){
+        if(response.error){
+          return false;
+        }
+      }).error(function(response){
+        return false;
+      });
     }
   }
 })

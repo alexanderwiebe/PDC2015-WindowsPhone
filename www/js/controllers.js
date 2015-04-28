@@ -33,9 +33,9 @@ angular.module('solfit.controllers', [])
       $scope.workout = {
         event:'',
         duration:{
-          hour:'',
-          minute:'',
-          second:''
+          hour:0,
+          minute:0,
+          second:0
         },
         distance:0,
         weights:0,
@@ -60,7 +60,7 @@ angular.module('solfit.controllers', [])
         /*
         * yeah this will change
         * used 75 calories per km
-        * average 7 calories per lift
+        * average 7 calories
         * */
         if($scope.workout.distance){
           $scope.workout.score = 75 * $scope.workout.distance;
@@ -77,6 +77,9 @@ angular.module('solfit.controllers', [])
         });
       });
     };
+    $scope.$on('$ionicView.enter', function(){
+      $scope.init();
+    });
 })
 
 .controller('StandingsCtrl', function($scope) {
@@ -111,15 +114,38 @@ angular.module('solfit.controllers', [])
   };
 })
 
-.controller('TeamCtrl', function($scope) {
-  $scope.teams = [
-    {
-      name: "Walkers",
-    },
-    {
-      name: "Runners"
-    }
-  ];
+.controller('TeamCtrl', function($scope,persistanceService) {
+  $scope.init = function() {
+    persistanceService.validate().then(function (d) {
+      $scope.currentUser = d.data;
+      console.log($scope.currentUser);
+    }).then(function () {
+     var myTeamQuery = {'Members':$scope.currentUser.objectId};
+      persistanceService.query('Team', myTeamQuery, null, 1000).then(function (d) {
+        $scope.myTeams = d.data.results;
+        console.log('My Teams');
+        console.log($scope.myTeams);
+      });
+      var allTeamQuery = {};
+      persistanceService.query('Team', allTeamQuery, null, 1000).then(function (d) {
+        $scope.allTeams = d.data.results;
+        console.log('All Teams');
+        console.log($scope.allTeams);
+      });
+    });
+  };
+  $scope.init();
+
+  $scope.joinTeam = function(joinThisTeam){
+    var updateOp = {"Members":{"__op":"Add","objects":[$scope.currentUser.objectId]}};
+    persistanceService.updateArray($scope.currentUser.objectId, 'Members', 'Team', joinThisTeam.objectId, updateOp).then(function(d){
+      $scope.init();
+      console.log('hey added you to the team');
+    });
+  };
+  $scope.$on('$ionicView.enter', function(){
+    $scope.init();
+  });
 })
 
 .controller('LogoutCtrl', function($scope, $cookies, $location, AuthenticationService)

@@ -1,34 +1,33 @@
 <ion-view view-title="Teams" class="pdc-teams">
   <ion-content class="padding">
-    <div class="list card" ng-repeat="team in teams">
-      <div class="item item-body">
-        <div>
-          <h1>Walkers</h1>
+    <div class="list card">
+      <div class="item item-divider">My Teams</div>
+      <div class="item item-body" ng-repeat="team in myTeams">
+        <div class="item item-input-inset">
+          <label class="item-input-wrapper">
+            {{team.Name}}
+          </label>
+          <button class="button button-small icon ion-ios-minus-outline"></button>
         </div>
       </div>
     </div>
     <div class="list card">
-      <div class="item item-divider">Recent Updates</div>
-      <div class="item item-body" ng-repeat="workout in workouts | limitTo: 5">
+      <div class="item item-divider">Join Teams</div>
+      <div class="item item-body" ng-repeat="team in allTeams">
         <div>
-          {{workout.updatedAt | date: 'longDate'}}: <b>{{workout.event}}</b> <b>{{workout.score}}</b>
+          {{team.Name}}
+          <button class="button button-small icon ion-ios-plus-outline"
+            ng-click="joinTeam(team)"></button>
         </div>
       </div>
     </div>
     <div class="list card">
-      <div class="item item-divider">Health</div>
-      <div class="item item-body">
-        <div>
-          You ate an apple today!
-        </div>
-      </div>
-    </div>
-    <div class="list card">
-      <div class="item item-divider">Upcoming</div>
-      <div class="item item-body">
-        <div>
-          You have <b>29</b> meetings on your calendar tomorrow.
-        </div>
+      <div class="item item-divider">Make Team</div>
+      <div class="item item-input-inset">
+        <label class="item-input-wrapper">
+          <input type="text" ng-model="newTeam.name" placeholder="Team name">
+        </label>
+        <button class="button button-small icon ion-ios-plus-outline"></button>
       </div>
     </div>
   </ion-content>
