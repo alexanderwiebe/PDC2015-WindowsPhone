@@ -62,7 +62,7 @@ angular.module('solfit.controllers', [])
         * used 75 calories per km
         * average 7 calories per lift
         * */
-        if(distance){
+        if($scope.workout.distance){
           $scope.workout.score = 75 * $scope.workout.distance;
         }else{
           $scope.workout.score = 7 * $scope.workout.sets * $scope.workout.reps;
