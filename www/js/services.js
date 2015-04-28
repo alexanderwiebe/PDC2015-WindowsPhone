@@ -64,6 +64,36 @@ angular.module('solfit.services', [])
     }
   }
 })
+
+.factory('RaceService', function($http, PARSE_CREDENTIALS){
+  return {
+    queryByOrganization: function(organization){
+      var currentTime = new Date();
+      currentTime.setHours(currentTime.getHours()-1);
+      currentTime = $filter('date')(currentTime, "yyyy-MM-ddTHH:mm:ss.sss");
+      currentTime = currentTime.toString() + 'Z';
+
+      return $http.get('https://api.parse.com/1/classes/Races',{
+        params:{
+          where:'{"endDate":{"$gte":{"__type":"Date","iso":"'+currentTime+'"}},"organizationCode":"'+organization+'"}'
+        },
+        headers: {
+          'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+          'X-Parse-REST-API-Key':PARSE_CREDENTIALS.REST_API_KEY
+        }
+      });
+    },
+    createRace: function(race){
+      return $http.post('https://api.parse.com/1/classes/Races',race,{
+        headers:{
+          'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+          'X-Parse-REST-API-Key':PARSE_CREDENTIALS.REST_API_KEY,
+          'Content-Type':'application/json'
+        }
+      });
+    }
+  }
+})
 //.factory('Auth',function() { return { isLoggedIn : false}; })
 .factory('AuthenticationService',function($http, $cookies, $location, PARSE_CREDENTIALS) {
   return {

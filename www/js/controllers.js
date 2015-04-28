@@ -89,6 +89,28 @@ angular.module('solfit.controllers', [])
   };
 })
 
+.controller('RacesCtrl', function($scope, RaceService) {
+
+  // race class:
+  // start date
+  // end date
+  // distance... 
+  //  start location
+  //  end location?
+
+  $scope.getRacesByOrganization = function() {
+
+  };
+
+  $scope.createRace = function() {
+
+  };
+
+  $scope.joinRace = function() {
+
+  };
+})
+
 .controller('TeamCtrl', function($scope) {
   $scope.teams = [
     {
@@ -103,25 +125,12 @@ angular.module('solfit.controllers', [])
 .controller('LogoutCtrl', function($scope, $cookies, $location, AuthenticationService)
 {
   console.log("logging out");
-  //AuthenticationService.logout();
   var logoutPromise = AuthenticationService.logout();
   logoutPromise.then(
     function(data) {
       console.log('logout successful');
     }
   );
-
-  /*
-  logoutPromise.then(
-    function(data) {
-      $cookies['currentSession'] = undefined;
-      delete $cookies['currentSession'];
-      $location.path('/login');
-    },
-    function(error) {
-      console.log(error);
-    }
-  );*/
 })
 
 .controller('LoginCtrl', function($scope, AuthenticationService, $state)

@@ -57,6 +57,16 @@ angular.module('solfit', ['ionic', 'solfit.controllers', 'solfit.services', 'ngC
     },
     authenticate: true
   })
+  .state('tab.races', {
+    url: '/races',
+    views: {
+      'tab-dash': {
+        templateUrl: 'templates/events.html',
+        controller: 'RacesCtrl'
+      }
+    },
+    authenticate: true
+  })
   .state('tab.log', {
       url: '/log',
       views: {

@@ -7,27 +7,13 @@
         </div>
       </div>
     </div>
+    <a class="button icon icon-right ion-chevron-right" href="#/tab/races">Join a Race!</a>
+
     <div class="list card">
       <div class="item item-divider">Recent Updates</div>
       <div class="item item-body" ng-repeat="workout in workouts | limitTo: 7">
         <div>
           {{workout.updatedAt | date: 'longDate'}}: <b>{{workout.event}}</b> <b>{{workout.score}}</b>
-        </div>
-      </div>
-    </div>
-    <div class="list card">
-      <div class="item item-divider">Health</div>
-      <div class="item item-body">
-        <div>
-          You ate an apple today!
-        </div>
-      </div>
-    </div>
-    <div class="list card">
-      <div class="item item-divider">Upcoming</div>
-      <div class="item item-body">
-        <div>
-          You have <b>29</b> meetings on your calendar tomorrow.
         </div>
       </div>
     </div>
