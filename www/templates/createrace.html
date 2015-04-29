@@ -1,0 +1,33 @@
+<ion-view view-title="Create a Race" class="pdc-createrace">
+  <ion-content class="padding">
+    <form ng-submit="createRace(race)" novalidate>
+      <div class="list">
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Race Name</span>
+          <input type="text" ng-model="race.Name" placeholder="The Amazing Race!">
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Start Date</span>
+          <input type="date" ng-model="race.StartDate">
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">End Date</span>
+          <input type="date" ng-model="race.EndDate">
+        </label>
+        <label class="item item-input item-select">
+          <span class="input-label">Race Type</span>
+          <select ng-model="race.Type" ng-options="type as type.label for type in types">
+          </select>
+        </label>
+      </div>
+      <div class="card" ng-show="race.Type">
+        <div class="item item-text-wrap">
+          {{race.Type.description}}
+        </div>
+      </div>
+      <button class="button button-block button-clear button-positive">
+          Create this Race!
+      </button>
+    </form>
+  </ion-content>
+</ion-view>

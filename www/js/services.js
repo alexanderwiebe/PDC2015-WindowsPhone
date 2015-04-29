@@ -122,7 +122,7 @@ angular.module('solfit.services', [])
   }
 })
 
-.factory('RaceService', function($http, PARSE_CREDENTIALS){
+.factory('RaceService', function($http, PARSE_CREDENTIALS, $filter){
   return {
     queryByOrganization: function(organization){
       var currentTime = new Date();
@@ -146,6 +146,22 @@ angular.module('solfit.services', [])
           'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
           'X-Parse-REST-API-Key':PARSE_CREDENTIALS.REST_API_KEY,
           'Content-Type':'application/json'
+        }
+      });
+    },
+    getActiveRaces: function() {
+      var currentTime = new Date();
+      currentTime.setHours(currentTime.getHours()-1);
+      currentTime = $filter('date')(currentTime, "yyyy-MM-ddTHH:mm:ss.sss");
+      currentTime = currentTime.toString() + 'Z';
+      console.log('get active races');
+      //        params:{
+          //where:'{"endDate":{"$gte":{"__type":"Date","iso":"'+currentTime+'"}}}'
+      //  },
+      return $http.get('https://api.parse.com/1/classes/Races',{
+        headers: {
+          'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+          'X-Parse-REST-API-Key':PARSE_CREDENTIALS.REST_API_KEY
         }
       });
     }

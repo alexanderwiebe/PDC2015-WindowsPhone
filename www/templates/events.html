@@ -1,11 +1,26 @@
 <ion-view view-title="Races" class="pdc-races">
   <ion-content class="padding">
-    <div class="list card">
+    <div class="list card" ng-repeat="race in races" ng-show="races.length > 0">
       <div class="item item-body">
         <div>
-          <h1>Races</h1>
+          <h1>{{race.Name}}</h1>
+          <h2>{{race.Type.label}}</h2>
+          <h3>{{race.Type.description}}</h3>
         </div>
+        <button class="button button-full button-balanced">
+          Join This Race!
+        </button>
       </div>
+    </div>
+    <center>
+    <a class="button button-clear button-positive icon icon-right ion-flag" href="#/tab/races/createrace" ng-show="races.length > 0">Create A Race</a>
+    </center>
+    <div ng-hide="races.length > 0">
+      <center>
+    No races found... but you can...
+      <br>
+      <a class="button button-clear button-positive icon icon-right ion-flag" href="#/tab/races/createrace">Create One</a>
+      </center>
     </div>
   </ion-content>
 </ion-view>

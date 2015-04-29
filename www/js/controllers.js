@@ -137,26 +137,57 @@ angular.module('solfit.controllers', [])
   };
 })
 
-.controller('RacesCtrl', function($scope, RaceService) {
+.controller('RacesCtrl', function($scope, $state, RaceService) {
 
+  $scope.types = [
+    { label: 'Around the World', 
+      value: 'AROUNDTHEWORLD', 
+      description: 'Have the teams compete in a race around the entire world!' },
+    { label: 'Across Canada', 
+      value: 'ACROSSCANADA',
+      description: 'Using the power of maple syrup, the teams will compete in a race from somewhere in the maritimes to like Tofino I guess.' },
+    { label: 'Through the Rockies', 
+      value: 'ROCKIES',
+      description: 'Saddle up your moose and compete from some northern part of the rockies to Banff!' },
+    { label: 'To Cancun!', 
+      value: 'CANCUN',
+      description: 'Be the first to Cancun from... Vancouver?' },
+    { label: 'Through the Sahara', 
+      value: 'SAHARA',
+      description: 'I hate sand... it is so... coarse.' }
+  ];
   // race class:
   // start date
   // end date
   // distance... 
   //  start location
   //  end location?
+  
 
   $scope.getRacesByOrganization = function() {
 
   };
 
-  $scope.createRace = function() {
+  $scope.init = function() {
+    RaceService.getActiveRaces().then(function(d) {
+      console.log(d);
+      $scope.races = d.data.results;
+      console.log($scope.races);
+    });
+  };
 
+  $scope.createRace = function(race) {
+    RaceService.createRace(race).then(function() {
+      console.log("created race");
+      $state.go('tab.races');
+    })
   };
 
   $scope.joinRace = function() {
 
   };
+
+  $scope.init();
 })
 
 .controller('TeamCtrl', function($scope,persistanceService) {
