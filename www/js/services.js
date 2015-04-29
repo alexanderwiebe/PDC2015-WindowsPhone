@@ -124,12 +124,13 @@ angular.module('solfit.services', [])
 
 .factory('TeamService', function($http, PARSE_CREDENTIALS) {
   //where={"race":{"__type":"Pointer","className":"Race","objectId":"8TOXdXf3tz"}}'
+  //'where={"post":{"__type":"Pointer","className":"Post","objectId":"8TOXdXf3tz"}}'
   return {
     getTeamsByRace: function(raceObjectId){
       console.log(raceObjectId);
-      return $http.get('https://api.parse.com/1/classes/Teams',{
+      return $http.get('https://api.parse.com/1/classes/Team',{
         params:  {
-          where: '{"race":{"__type":"Pointer","className":"Races","objectId":"' + raceObjectId + '"}}'
+          where:'{"race":{"__type":"Pointer","className":"Races","objectId":"' + raceObjectId + '"}}'
         },
         headers: {
           'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,

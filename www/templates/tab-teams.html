@@ -24,12 +24,19 @@
     </div>
     <div class="list card">
       <div class="item item-divider">Make Team</div>
-      <div class="item item-input-inset">
-        <label class="item-input-wrapper">
-          <input type="text" ng-model="newTeam.Name" placeholder="Team name">
+      <div class="item item-body">
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Team Name</span>
+          <input type="text" ng-model="newTeam.Name" placeholder="Team Walkers">
         </label>
-        <button class="button button-small icon ion-ios-plus-outline"
-          ng-click="createTeam()"></button>
+        <label class="item item-input item-select">
+          <span class="input-label">Race</span>
+          <select ng-model="newTeam.race" ng-options="race as race.Name for race in races">
+          </select>
+        </label>
+        <button class="button button-block button-clear button-positive" ng-click="createTeam()">
+            Create this Team!
+        </button>
       </div>
     </div>
   </ion-content>

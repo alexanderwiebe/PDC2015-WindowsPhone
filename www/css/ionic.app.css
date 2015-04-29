@@ -31,7 +31,7 @@ $dark:                            #444 !default;
   text-align: center; }
 .pdc-log .pdc-duration-input input {
   border-bottom: thin solid black; }
-.pdc-log .pdc-duration-input .row {
+.pdc-log .pdc-duration-input .row, .pdc-log .pdc-duration-input .firstCol {
   padding-left: 0; }
 .pdc-log .pdc-save-button button {
   margin-left: auto;

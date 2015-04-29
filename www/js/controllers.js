@@ -137,7 +137,7 @@ angular.module('solfit.controllers', [])
   };
 })
 
-.controller('RacesCtrl', function($scope, $state, $ionicModal, RaceService, TeamService) {
+.controller('RacesCtrl', function($scope, $state, $ionicModal, RaceService, TeamService, persistanceService) {
 
   $scope.types = [
     { label: 'Around the World', 
@@ -198,10 +198,22 @@ angular.module('solfit.controllers', [])
 
   };
 
+  $scope.joinTeam = function(team) {
+    var updateOp = {"Members":{"__op":"Add","objects":[$scope.currentUser.objectId]}};
+    persistanceService.updateArray('Team', team.objectId, updateOp).then(function(d){
+      $scope.init();
+      console.log('hey added you to the team');
+      $scope.closeModal();
+    });
+  };
+
   $scope.init = function() {
     RaceService.getActiveRaces().then(function(d) {
       $scope.races = d.data.results;
     });
+    persistanceService.validate().then(function (d) {
+      $scope.currentUser = d.data;
+    })
   };
 
   $scope.createRace = function(race) {
@@ -209,10 +221,6 @@ angular.module('solfit.controllers', [])
       console.log("created race");
       $state.go('tab.races');
     })
-  };
-
-  $scope.joinRace = function(raceObjectId) {
-
   };
 
   $scope.init();
@@ -223,7 +231,7 @@ angular.module('solfit.controllers', [])
   });
 })
 
-.controller('TeamCtrl', function($scope,persistanceService) {
+.controller('TeamCtrl', function($scope,persistanceService,RaceService) {
   $scope.init = function() {
     $scope.newTeam = {};
     $scope.newTeam.Name = '';
@@ -244,6 +252,10 @@ angular.module('solfit.controllers', [])
         console.log($scope.allTeams);
       });
     });
+    RaceService.getActiveRaces().then(function(d) {
+      $scope.races = d.data.results;
+    });
+
   };
   $scope.init();
 
@@ -255,6 +267,8 @@ angular.module('solfit.controllers', [])
     });
   };
   $scope.createTeam = function(){
+    $scope.newTeam.race = {"__type": "Pointer","className": "Races","objectId": ""+$scope.newTeam.race.objectId+""};
+    console.log($scope.newTeam);
     $scope.newTeam.Members = [$scope.currentUser.objectId];
     persistanceService.save($scope.newTeam,'Team',$scope.currentUser.objectId).then(function(i){
       //success
@@ -262,6 +276,7 @@ angular.module('solfit.controllers', [])
       $scope.init();
     },function(errorMsg){
       //failure
+      console.log(errorMsg);
       console.log('failure');
     });
   };

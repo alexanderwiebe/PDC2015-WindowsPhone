@@ -4,13 +4,17 @@
 	</ion-header-bar>
 	<ion-content class="padding">
 		To join a race, select a team to join from the list!
-		<div class="list card" ng-repeat="team in teams" ng-show="teams.length > 0">
-      <div class="item item-divider">
-        <h1>{{team.Name}}</h1>
+		<div class="card list" ng-repeat="team in teams" ng-show="teams.length > 0">
+			<div class="row">
+				<div class="col col-75">
+	      	<h2>{{team.Name}}</h2>
+      	</div>
+      	<div class="col col-center">
+		      <button ng-click="joinTeam(team)" class="button button-small button-balanced icon icon-right ion-ios-plus-outline">
+		        Join This Team!
+		      </button>
+	      </div>
       </div>
-      <button ng-click="joinTeam(team)" class="button button-full button-balanced">
-        Join This Team!
-      </button>
     </div>
     <div ng-hide="teams.length > 0">
     No teams found... go create one!
