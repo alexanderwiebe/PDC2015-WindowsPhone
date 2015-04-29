@@ -42,8 +42,13 @@ $dark:                            #444 !default;
   .intro h4{
     text-align:center;
   }
-  .pdc-duration-input input{
-    border-bottom:thin solid black;
+  .pdc-duration-input{
+    input{
+      border-bottom:thin solid black;
+    }
+    .row, .firstCol{
+      padding-left:0;
+    }
   }
   .pdc-save-button button{
     margin-left:auto;

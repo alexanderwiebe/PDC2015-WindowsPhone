@@ -12,12 +12,19 @@
         <input type="text" ng-model="workout.event">
       </label>
       <label class="item item-input pdc-duration-input">
-        <span class="input-label">Duration</span>
-        <input type="number" ng-model="workout.duration.hour">
-        <span>:</span>
-        <input type="number" ng-model="workout.duration.minute">
-        <span>:</span>
-        <input type="number" ng-model="workout.duration.second">
+        <div class="row">
+          <span class="input-label">Duration</span>
+          <div class="col firstCol">
+            <input type="number" ng-model="workout.duration.hour">
+            <span>hours</span>
+          </div> <div class="col">
+            <input type="number" ng-model="workout.duration.minute">
+            <span>minutes</span>
+          </div> <div class="col">
+            <input type="number" ng-model="workout.duration.second">
+            <span>seconds</span>
+          </div>
+        </div>
       </label>
       <label class="item item-input">
         <span class="input-label">Distance</span>
