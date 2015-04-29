@@ -31,7 +31,7 @@ angular.module('solfit.controllers', [])
     });
 })
 
-.controller('LogCtrl', function($scope, $ionicPopup, persistanceService) {
+.controller('LogCtrl', function($scope, $ionicPopup, $state, persistanceService) {
     $scope.init = function(){
       $scope.workout = {
         event:'',
@@ -79,6 +79,7 @@ angular.module('solfit.controllers', [])
           });
           alertPopup.then(function(res) {
             console.log('workout logged');
+            $state.go('tab.log');
           });
           $scope.workout.objectId = i.objectId;
         },function(errorMsg){

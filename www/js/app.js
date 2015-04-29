@@ -87,6 +87,43 @@ angular.module('solfit', ['ionic', 'solfit.controllers', 'solfit.services', 'ngC
       },
     authenticate: true
   })
+
+    //Log -> LogRun
+    .state('tab.logRun', {
+      url:'/log/logRun',
+      views: {
+        'tab-log' : {
+          templateUrl: 'templates/logRun.html',
+          controller: 'LogCtrl'
+        }
+      },
+      authenticate: true
+    })
+      
+    //Log -> LogSport
+    .state('tab.LogSport', {
+      url:'/log/logSport',
+      views: {
+        'tab-log' : {
+          templateUrl: 'templates/logSport.html',
+          controller: 'LogCtrl'
+        }
+      },
+      authenticate: true
+    })
+      
+    //Log -> LogWorkout
+    .state('tab.LogWorkout', {
+      url:'/log/logWorkout',
+      views: {
+        'tab-log' : {
+          templateUrl: 'templates/logWorkout.html',
+          controller: 'LogCtrl'
+        }
+      },
+      authenticate: true
+    })
+
   .state('tab.standings', {
       url: '/standings',
       views: {

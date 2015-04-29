@@ -1,4 +1,20 @@
 /* Empty. Add your own CSS if you like */
+a {
+  text-decoration: none;
+}
+
+.container {
+  margin-top: 10px;
+  width: 100%;
+  text-align: center;
+}
+
+.logbutton {
+  padding: 5px;
+  margin: 10px;
+  width: 85%;
+}
+
 .date {
 	text-align: center;
 }
@@ -107,3 +123,7 @@ stroke-dashoffset:0
   -o-animation: load 4s;
   animation: load 4s;
 }
+
+
+/* Workout */
+
