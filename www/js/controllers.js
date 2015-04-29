@@ -188,6 +188,11 @@ angular.module('solfit.controllers', [])
   };
 
   $scope.init();
+
+
+  $scope.$on('$ionicView.enter', function(){
+    $scope.init();
+  });
 })
 
 .controller('TeamCtrl', function($scope,persistanceService) {
