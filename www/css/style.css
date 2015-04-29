@@ -25,6 +25,20 @@ stroke-dashoffset:0
 
 /* Container */
 
+#join-race-btn {
+  width: 100%;
+}
+
+.date-container {
+  width: 100%;
+  text-align: center;
+}
+
+.date-inline {
+  display: inline-block;
+  vertical-align: middle;
+}
+
 .sub-container {
 	width: 100%;
 	text-align: center;
