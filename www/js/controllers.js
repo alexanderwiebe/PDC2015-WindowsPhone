@@ -137,7 +137,7 @@ angular.module('solfit.controllers', [])
   };
 })
 
-.controller('RacesCtrl', function($scope, $state, RaceService) {
+.controller('RacesCtrl', function($scope, $state, $ionicModal, RaceService, TeamService) {
 
   $scope.types = [
     { label: 'Around the World', 
@@ -156,6 +156,36 @@ angular.module('solfit.controllers', [])
       value: 'SAHARA',
       description: 'I hate sand... it is so... coarse.' }
   ];
+
+  $ionicModal.fromTemplateUrl('/templates/modal-jointeam.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+  $scope.openModal = function(race) {
+    $scope.race = race;
+    TeamService.getTeamsByRace(race.objectId).then(function(d) {
+      console.log(d);
+      $scope.teams = d.data.results;
+      $scope.modal.show();
+    });
+  };
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+    // Execute action
+  });
   // race class:
   // start date
   // end date
@@ -170,9 +200,7 @@ angular.module('solfit.controllers', [])
 
   $scope.init = function() {
     RaceService.getActiveRaces().then(function(d) {
-      console.log(d);
       $scope.races = d.data.results;
-      console.log($scope.races);
     });
   };
 
@@ -183,7 +211,7 @@ angular.module('solfit.controllers', [])
     })
   };
 
-  $scope.joinRace = function() {
+  $scope.joinRace = function(raceObjectId) {
 
   };
 

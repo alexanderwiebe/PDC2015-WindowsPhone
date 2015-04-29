@@ -1,0 +1,19 @@
+<ion-modal-view>
+	<ion-header-bar>
+		<h1 class="title">Join {{race.Name}}!</h1>
+	</ion-header-bar>
+	<ion-content class="padding">
+		To join a race, select a team to join from the list!
+		<div class="list card" ng-repeat="team in teams" ng-show="teams.length > 0">
+      <div class="item item-divider">
+        <h1>{{team.Name}}</h1>
+      </div>
+      <button ng-click="joinTeam(team)" class="button button-full button-balanced">
+        Join This Team!
+      </button>
+    </div>
+    <div ng-hide="teams.length > 0">
+    No teams found... go create one!
+    </div>
+	</ion-content>
+</ion-modal-view>
