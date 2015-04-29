@@ -144,11 +144,36 @@ angular.module('solfit', ['ionic', 'solfit.controllers', 'solfit.services', 'ngC
     },
     authenticate: true
   })
+
   .state('tab.teams', {
     url: '/teams',
     views: {
       'tab-teams': {
         templateUrl: 'templates/tab-teams.html',
+        controller: 'TeamCtrl'
+      }
+    },
+    authenticate: true
+  })
+
+  //Teams -> TeamCreate
+  .state('tab.teamCreate', {
+    url: '/teams/teamCreate',
+    views: {
+      'tab-teams': {
+        templateUrl: 'templates/teamCreate.html',
+        controller: 'TeamCtrl'
+      }
+    },
+    authenticate: true
+  })
+
+    //Teams -> TeamJoin
+  .state('tab.teamJoin', {
+    url: '/teams/teamJoin',
+    views: {
+      'tab-teams': {
+        templateUrl: 'templates/teamJoin.html',
         controller: 'TeamCtrl'
       }
     },

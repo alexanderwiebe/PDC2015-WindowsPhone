@@ -12,34 +12,14 @@
         </div>
       </div>
     </div>
-    <div class="list card">
-      <div class="item item-divider">Join Teams</div>
-      <div class="item item-body" ng-repeat="team in allTeams">
-        <div>
-          <span style="float: left;">
-            {{team.Name}}
-          </span>
-          <button style="float: right;" class="button button-small icon ion-ios-plus-outline"
-            ng-click="joinTeam(team)"></button>
-        </div>
-      </div>
-    </div>
-    <div class="list card">
-      <div class="item item-divider">Make Team</div>
-      <div class="item item-body">
-        <label class="item item-input item-stacked-label">
-          <span class="input-label">Team Name</span>
-          <input type="text" ng-model="newTeam.Name" placeholder="Team Walkers">
-        </label>
-        <label class="item item-input item-select">
-          <span class="input-label">Race</span>
-          <select ng-model="newTeam.race" ng-options="race as race.Name for race in races">
-          </select>
-        </label>
-        <button class="button button-block button-clear button-positive" ng-click="createTeam()">
-            Create this Team!
-        </button>
-      </div>
+
+    <div class="container">
+      <a class="button button-light logbutton" href="#/tab/teams/teamJoin">
+        Join
+      </a>
+      <a class="button button-light logbutton" href="#/tab/teams/teamCreate">
+        Create
+      </a>
     </div>
   </ion-content>
 </ion-view>

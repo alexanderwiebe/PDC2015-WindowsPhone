@@ -1,0 +1,16 @@
+<ion-view view-title="Teams - Create" class="pdc-log">
+  <ion-content>
+    <div class="list card">
+      <div class="item item-divider">Join Teams</div>
+      <div class="item item-body" ng-repeat="team in allTeams">
+        <div>
+          <span style="float: left;">
+            {{team.Name}}
+          </span>
+          <button style="float: right;" class="button button-small icon ion-ios-plus-outline"
+            ng-click="joinTeam(team)"></button>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>
