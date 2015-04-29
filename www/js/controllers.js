@@ -31,7 +31,7 @@ angular.module('solfit.controllers', [])
     });
 })
 
-.controller('LogCtrl', function($scope, persistanceService) {
+.controller('LogCtrl', function($scope, $ionicPopup, persistanceService) {
     $scope.init = function(){
       $scope.workout = {
         event:'',
@@ -73,6 +73,13 @@ angular.module('solfit.controllers', [])
         persistanceService.save($scope.workout,'workout',$scope.currentUser.objectId).then(function(i){
           //success
           console.log('success');
+          var alertPopup = $ionicPopup.alert({
+            title: 'Great Job!!',
+            template: 'Workout Logged'
+          });
+          alertPopup.then(function(res) {
+            console.log('workout logged');
+          });
           $scope.workout.objectId = i.objectId;
         },function(errorMsg){
           //failure
@@ -115,7 +122,6 @@ angular.module('solfit.controllers', [])
               });
             })(user);
           }
-
 
         });
     };
