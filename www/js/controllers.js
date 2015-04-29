@@ -104,14 +104,16 @@ angular.module('solfit.controllers', [])
 
           }
           for(var user in $scope.userTotals){
-            persistanceService.users({'objectId':user}, null, 2).then(function(result){
-              $scope.displayRow.push({
-                name:result.data.results[0].name,
-                score:$scope.userTotals[user]
+            (function(user){
+              persistanceService.users({'objectId':user}, null, 2).then(function(result){
+                $scope.displayRow.push({
+                  name:result.data.results[0].name,
+                  score:$scope.userTotals[user]
+                });
+              }).then(function(){
+                console.log($scope.displayRow);
               });
-            }).then(function(){
-              console.log($scope.displayRow);
-            });
+            })(user);
           }
 
 

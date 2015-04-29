@@ -1,9 +1,12 @@
 <ion-view view-title="Standings">
-    <ion-content>
-        <ion-list>
-            <ion-toggle  ng-model="settings.enableFriends">
-                Future Home of standings - Patrick
-            </ion-toggle>
-        </ion-list>
-    </ion-content>
+  <ion-content class="padding">
+    <div class="list card">
+      <div class="item item-divider">My Teams</div>
+      <div class="item item-body" ng-repeat="row in displayRow | orderBy:'score':true">
+        <div class="item item-input-inset">
+          {{row.name}} @ {{row.score}}
+        </div>
+      </div>
+    </div>
+  </ion-content>
 </ion-view>
