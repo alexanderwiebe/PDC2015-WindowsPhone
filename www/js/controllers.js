@@ -12,7 +12,10 @@ angular.module('solfit.controllers', [])
           //success
           console.log('success');
           $scope.workouts = result.data.results;
-          $scope.score = 1234;
+          $scope.score = 0;
+          for(var workout in $scope.workouts){
+            $scope.score = $scope.score + ($scope.workouts[workout].score||0);
+          }
           console.log($scope.workouts);
         }, function (errorMsg) {
           //failure
@@ -82,8 +85,42 @@ angular.module('solfit.controllers', [])
     });
 })
 
-.controller('StandingsCtrl', function($scope) {
-    $scope.hello = 'world';
+.controller('StandingsCtrl', function($scope, persistanceService) {
+    $scope.init = function(){
+      var aWeekAgo = new Date(new Date() - 7 * 24 * 60 * 60 * 1000);
+      var queryValue = {'createdAt':{'$gte':aWeekAgo}};
+      persistanceService.query('workout', queryValue, '-updatedAt', 7)
+        .then(function (result) {
+
+          console.log(result);
+          $scope.userTotals = [];
+          $scope.displayRow = [];
+          for(var workout in result.data.results){
+            if(!$scope.userTotals[result.data.results[workout].userId]) {
+              $scope.userTotals[result.data.results[workout].userId] = 0;
+            }
+            $scope.userTotals[result.data.results[workout].userId] += (result.data.results[workout].score||0);
+
+
+          }
+          for(var user in $scope.userTotals){
+            persistanceService.users({'objectId':user}, null, 2).then(function(result){
+              $scope.displayRow.push({
+                name:result.data.results[0].name,
+                score:$scope.userTotals[user]
+              });
+            }).then(function(){
+              console.log($scope.displayRow);
+            });
+          }
+
+
+        });
+    };
+
+    $scope.$on('$ionicView.enter', function(){
+      $scope.init();
+    });
 })
 
 .controller('AccountCtrl', function($scope) {

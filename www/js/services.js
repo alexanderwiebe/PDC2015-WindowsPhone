@@ -20,7 +20,27 @@ angular.module('solfit.services', [])
         return false;
       });
     },
-
+    users: function(withThisQuery, withThisOrder, withThisLimit){
+      return $http({
+        method:'get',
+        url:'https://api.parse.com/1/users/',
+        params:{
+          'where':withThisQuery,
+          'order':(withThisOrder||'-updatedAt'),
+          'limit':(withThisLimit||0)
+        },
+        headers:{
+          'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+          'X-Parse-REST-API-Key':PARSE_CREDENTIALS.REST_API_KEY
+        }
+      }).success(function(response){
+        if(response.error){
+          return false;
+        }
+      }).error(function(response){
+        return false;
+      });
+    },
     save: function(saveThis, saveItHere, withUserObjectID){
       saveThis['userId'] = saveThis['userId'] || withUserObjectID;
       return $http({
