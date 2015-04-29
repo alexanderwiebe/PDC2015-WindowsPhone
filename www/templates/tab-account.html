@@ -1,12 +1,45 @@
 <ion-view view-title="Account">
-  <ion-content>
+  <ion-content class="pdc-account">
     <ion-list>
-    <ion-toggle  ng-model="settings.enableFriends">
-      Enable Friends
-    </ion-toggle>
-    <ion-toggle  ng-model="settings.unitOfMeasure">
-      Metric
-    </ion-toggle>
+      <label class="item item-input">
+        <span class="input-label">Name</span>
+        <input type="text" ng-model="user.name">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Age</span>
+        <input type="number" ng-model="user.age">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Height</span>
+        <input type="number" ng-model="user.height">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Weight</span>
+        <input type="number" ng-model="user.weight">
+      </label>
+      <label class="item item-input  item-select">
+        <div class="input-label">
+          Units
+        </div>
+        <select ng-model="user.unit">
+          <option selected>Metric</option>
+          <option>Imperial</option>
+        </select>
+      </label>
+      <label class="item item-input  item-select">
+        <div class="input-label">
+          Gender
+        </div>
+        <select ng-model="user.gender">
+          <option>Female</option>
+          <option>Male</option>
+        </select>
+      </label>
+      <label class="item item-input pdc-save-button">
+        <button class="button button-balanced" ng-click="updateProfile()">
+          Update Profile!
+        </button>
+      </label>
     </ion-list>
   </ion-content>
 </ion-view>

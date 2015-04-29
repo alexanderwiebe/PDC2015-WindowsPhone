@@ -132,10 +132,23 @@ angular.module('solfit.controllers', [])
     });
 })
 
-.controller('AccountCtrl', function($scope) {
-  $scope.settings = {
-    enableFriends: true
+.controller('AccountCtrl', function($scope,persistanceService) {
+  $scope.init = function(){
+    $scope.user = {
+      name:'Joan deArc',
+      age:28,
+      height:170,
+      weight:68,
+      gender:'Female',
+      unit:'Metric'
+    };
+    persistanceService.validate().then(function (d) {
+      $scope.user = d.data;
+    });
   };
+  $scope.$on('$ionicView.enter', function(){
+    $scope.init();
+  });
 })
 
 .controller('RacesCtrl', function($scope, $state, $ionicModal, RaceService, TeamService, persistanceService) {
