@@ -41,6 +41,18 @@ angular.module('solfit.services', [])
         return false;
       });
     },
+    updateUser: function(thisUser, thisUserID, withThisSession){
+      return $http({
+        method:'put',
+        url:'https://api.parse.com/1/users/'+thisUserID,
+        headers:{
+          'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+          'X-Parse-REST-API-Key':PARSE_CREDENTIALS.REST_API_KEY,
+          'X-Parse-Session-Token':withThisSession
+        },
+        data:thisUser
+      })
+    },
     save: function(saveThis, saveItHere, withUserObjectID){
       saveThis['userId'] = saveThis['userId'] || withUserObjectID;
       return $http({

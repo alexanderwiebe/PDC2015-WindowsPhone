@@ -132,7 +132,7 @@ angular.module('solfit.controllers', [])
     });
 })
 
-.controller('AccountCtrl', function($scope,persistanceService) {
+.controller('AccountCtrl', function($scope, $cookies, $ionicPopup, persistanceService) {
   $scope.init = function(){
     $scope.user = {
       name:'Joan deArc',
@@ -146,6 +146,31 @@ angular.module('solfit.controllers', [])
       $scope.user = d.data;
     });
   };
+    /*
+  $scope.$watch($scope.user.name, function(newVal, oldVal){
+    console.log(newVal);
+  }, true);*/
+
+  $scope.updateProfile = function(){
+    var updateTheseFields = {
+      name:$scope.user.name,
+      age:$scope.user.age,
+      height:$scope.user.height,
+      weight:$scope.user.weight,
+      gender:$scope.user.gender,
+      unit:$scope.user.unit
+    };
+    persistanceService.updateUser(updateTheseFields, $scope.user.objectId, $cookies['currentSession']).then(function(){
+      var alertPopup = $ionicPopup.alert({
+        title: 'Awesome work!!',
+        template: 'Profile Updated'
+      });
+      alertPopup.then(function(res) {
+        console.log('profile updated');
+      });
+    })
+  };
+
   $scope.$on('$ionicView.enter', function(){
     $scope.init();
   });

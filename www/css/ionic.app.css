@@ -38,6 +38,10 @@ $dark:                            #444 !default;
   margin-right: auto; }
 
 /*standings tab*/
+.pdc-account .pdc-save-button button {
+  margin-left: auto;
+  margin-right: auto; }
+
 /*tab page*/
 /*!
   Ionicons, v2.0.1
