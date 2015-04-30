@@ -123,7 +123,17 @@ angular.module('solfit', ['ionic', 'solfit.controllers', 'solfit.services', 'ngC
       },
       authenticate: true
     })
-
+    //Log -> LogSteps
+    .state('tab.LogSteps', {
+      url:'/log/logSteps',
+      views: {
+        'tab-log' : {
+          templateUrl: 'templates/logSteps.html',
+          controller: 'LogCtrl'
+        }
+      },
+      authenticate: true
+    })
   .state('tab.standings', {
       url: '/standings',
       views: {

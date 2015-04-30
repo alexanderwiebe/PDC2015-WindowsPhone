@@ -65,10 +65,17 @@ angular.module('solfit.controllers', [])
         * used 75 calories per km
         * average 7 calories
         * */
-        if($scope.workout.distance){
+        if($scope.workout.distance)
+        {
           $scope.workout.score = 75 * $scope.workout.distance;
-        }else{
+        }
+        else if($scope.workout.sets)
+        {
           $scope.workout.score = 7 * $scope.workout.sets * $scope.workout.reps;
+        }
+        else
+        { // quick google search told me 1 calorie burned for every 20 steps
+          $scope.workout.score = $scope.workout.steps/20;
         }
         persistanceService.save($scope.workout,'workout',$scope.currentUser.objectId).then(function(i){
           //success
