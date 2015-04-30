@@ -27,7 +27,7 @@ angular.module('solfit.services', [])
         params:{
           'where':withThisQuery,
           'order':(withThisOrder||'-updatedAt'),
-          'limit':(withThisLimit||0)
+          'limit':(withThisLimit||1000)
         },
         headers:{
           'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
@@ -80,7 +80,7 @@ angular.module('solfit.services', [])
         params:{
           'where':withThisQuery,
           'order':(withThisOrder||'-updatedAt'),
-          'limit':(withThisLimit||0)
+          'limit':(withThisLimit||1000)
         },
         headers:{
           'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
@@ -153,6 +153,19 @@ angular.module('solfit.services', [])
   }
 })
 
+.factory('PictureService', function($http, PARSE_CREDENTIALS){
+  return {
+    uploadPicture: function(file){
+      return $http.post('https://api.parse.com/1/files/pic.jpeg',file,{
+        headers: {
+          'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+          'X-Parse-REST-API-Key':PARSE_CREDENTIALS.REST_API_KEY,
+          'Content-Type': 'image/jpeg'
+        }
+      });
+    }
+  }
+})
 .factory('RaceService', function($http, PARSE_CREDENTIALS, $filter){
   return {
     queryByOrganization: function(organization){

@@ -76,9 +76,9 @@
 
     <div class="list card">
         <div class="item item-divider">Recent Updates</div>
-        <div class="item item-body" ng-repeat="workout in workouts | limitTo: 7">
+        <div class="item item-body" ng-repeat="workout in recent track by $index  | limitTo: 7">
             <div>
-                {{workout.updatedAt | date: 'longDate'}}: <b>{{workout.event}}</b> <b>{{workout.score}}</b>
+                <b>{{workout.updatedAt | date: 'longDate'}}</b> {{workout.statement}}
             </div>
         </div>
     </div>

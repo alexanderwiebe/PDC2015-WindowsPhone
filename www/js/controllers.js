@@ -13,8 +13,33 @@ angular.module('solfit.controllers', [])
           console.log('success');
           $scope.workouts = result.data.results;
           $scope.score = 0;
+          $scope.recent = [];
           for(var workout in $scope.workouts){
+            var theWorkout = $scope.workouts[workout];
+            console.log(theWorkout);
+            if (theWorkout.workoutType === "steps")
+            {
+              console.log('in steps');
+              $scope.recent.push({"statement": theWorkout.event + ": " + theWorkout.steps + " steps for a score of " + theWorkout.score + "!",
+                                  "updatedAt": theWorkout.updatedAt});
+            }
+            else if (theWorkout.workoutType === "run")
+            {
+              $scope.recent.push({"statement": theWorkout.event + ": a " + theWorkout.duration + " run for a score of " + theWorkout.score + "!",
+                                  "updatedAt": theWorkout.updatedAt});
+            }
+            else if (theWorkout.workoutType === "sport")
+            {
+              $scope.recent.push({"statement": theWorkout.event + " for " + theWorkout.duration + " for a score of " + theWorkout.score + "!",
+                                  "updatedAt": theWorkout.updatedAt});
+            }
+            else if (theWorkout.workoutType === "workout")
+            {
+              $scope.recent.push({"statement": theWorkout.event + ": you lifted " + theWorkout.weights + " for " + theWorkout.reps + " reps and " + theWorkout.sets + " sets... score: " + theWorkout.score + "!",
+                                  "updatedAt": theWorkout.updatedAt});
+            }
             $scope.score = $scope.score + ($scope.workouts[workout].score||0);
+            console.log($scope.recent);
           }
           console.log($scope.workouts);
         }, function (errorMsg) {
@@ -43,10 +68,27 @@ angular.module('solfit.controllers', [])
         distance:0,
         weights:0,
         sets:0,
+        steps: 0,
         reps:0,
         feelings:50,
         notes:''
       };
+      if ($state.current.name === "tab.LogSteps")
+      {
+        $scope.workout.workoutType = 'steps';
+      }
+      else if ($state.current.name === "tab.LogRun")
+      {
+        $scope.workout.workoutType = 'run';
+      }
+      else if ($state.current.name === "tab.LogWorkout")
+      {
+        $scope.workout.workoutType = 'workout';
+      }
+      else if ($state.current.name === "tab.LogSport")
+      {
+        $scope.workout.workoutType = 'sport';
+      }
     };
     $scope.init();
 
@@ -198,7 +240,7 @@ angular.module('solfit.controllers', [])
     });
 })
 
-.controller('AccountCtrl', function($scope, $cookies, $ionicPopup, persistanceService) {
+.controller('AccountCtrl', function($scope, $cookies, $ionicPopup, persistanceService, PictureService) {
   $scope.init = function(){
     $scope.user = {
       name:'',
@@ -226,15 +268,22 @@ angular.module('solfit.controllers', [])
       gender:$scope.user.gender,
       unit:$scope.user.unit
     };
-    persistanceService.updateUser(updateTheseFields, $scope.user.objectId, $cookies['currentSession']).then(function(){
-      var alertPopup = $ionicPopup.alert({
-        title: 'Awesome work!!',
-        template: 'Profile Updated'
+    PictureService.uploadPicture($scope.user.picture).then(function(data){
+      console.log(data);
+      persistanceService.updateUser(updateTheseFields, $scope.user.objectId, $cookies['currentSession']).then(function(){
+        var alertPopup = $ionicPopup.alert({
+          title: 'Awesome work!!',
+          template: 'Profile Updated'
+        });
+        alertPopup.then(function(res) {
+          console.log('profile updated');
+        });
       });
-      alertPopup.then(function(res) {
-        console.log('profile updated');
-      });
-    })
+    },
+    function(error){
+      console.log(error);
+    });
+    
   };
 
   $scope.$on('$ionicView.enter', function(){

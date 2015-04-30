@@ -89,7 +89,7 @@ angular.module('solfit', ['ionic', 'solfit.controllers', 'solfit.services', 'ngC
   })
 
     //Log -> LogRun
-    .state('tab.logRun', {
+    .state('tab.LogRun', {
       url:'/log/logRun',
       views: {
         'tab-log' : {
