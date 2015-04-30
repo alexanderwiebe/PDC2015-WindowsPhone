@@ -1,11 +1,17 @@
 <ion-view view-title="Standings">
-  <ion-content class="padding">
+  <ion-content class="padding pdc-standings">
     <div class="list card">
       <div class="item item-divider">Everyone</div>
       <div class="item item-body" ng-repeat="row in displayRow | orderBy:'score':true">
         <div class="item item-input-inset">
           {{row.name}} @ {{row.score}}
         </div>
+      </div>
+    </div>
+    <div class="list card">
+      <div class="item item-divider">Canada Race</div>
+      <div id="canadaRace" class="item item-body map-body">
+
       </div>
     </div>
   </ion-content>

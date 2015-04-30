@@ -132,6 +132,65 @@ angular.module('solfit.controllers', [])
           }
 
         });
+      /***Map stuff yo***/
+      geocoder = new google.maps.Geocoder();
+      var myLatlng = new google.maps.LatLng(50.4547222, -104.6066667);
+      var mapOptions = {
+        zoom: 3,
+        center: myLatlng
+      }
+      var map = new google.maps.Map(document.getElementById('canadaRace'), mapOptions);
+      var people = [];
+      people.push({id: 1, name: "start", hometown: "St. Johns", latLng:[51.3725, -55.5947]});
+      people.push({id: 2, name: "end", hometown: "Vancouver", latLng:[49.2827, -123.1207]});
+      people.push({id: 3, name: "AJ", hometown: "", latLng:[49.6827, -105.4]});
+      people.push({id: 4, name: "Thomas", hometown: "", latLng:[50, -88.8]});
+      people.push({id: 5, name: "Patrick", hometown: "", latLng:[51.0, -72.34]});
+
+      var infowindows = [];
+
+      var raceCoordinates = [
+        new google.maps.LatLng(51.3725, -55.5947),
+        new google.maps.LatLng(49.2827, -123.1207)
+      ];
+      var raceLine = new google.maps.Polyline({
+        path: raceCoordinates,
+        geodesic: false,
+        strokeColor: '#0000FF',
+        strokeOpacity: 0.5,
+        strokeWeight: 2
+      });
+
+      raceLine.setMap(map);
+
+      for(person in people){//start iterating through peoples bios
+
+        var infowindow = new google.maps.InfoWindow({
+          content: '<div class="content">'
+          + '<p>'+people[person].name+'</p>'
+          + '<img src="http://upload.wikimedia.org/wikipedia/commons/9/93/Cat_poster_2.jpg" width="50" height="50">'
+          + '</div>'
+        });
+        infowindows[people[person].id] = infowindow;
+      }//done iterating through peoples bios
+      var markers = [];
+      for(person in people){//start iterating through people's location
+        var personLoc = new google.maps.LatLng(people[person].latLng[0],people[person].latLng[1]);
+        var marker = new google.maps.Marker({
+          position: personLoc,
+          map: map,
+          title: people[person].name,
+          personID: people[person].id
+        });
+        (function(marker){
+          google.maps.event.addListener(marker, 'click', function() {
+            infowindows[this.personID].open(map,marker);
+          });
+        })(marker);
+        markers.push(marker);
+      }//stop iterating through people's location
+      /***Map stuff yo***/
+
     };
 
     $scope.$on('$ionicView.enter', function(){
@@ -142,10 +201,10 @@ angular.module('solfit.controllers', [])
 .controller('AccountCtrl', function($scope, $cookies, $ionicPopup, persistanceService) {
   $scope.init = function(){
     $scope.user = {
-      name:'Joan deArc',
-      age:28,
-      height:170,
-      weight:68,
+      name:'',
+      age:0,
+      height:0,
+      weight:0,
       gender:'Female',
       unit:'Metric'
     };
