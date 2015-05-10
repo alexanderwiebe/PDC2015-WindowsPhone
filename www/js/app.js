@@ -1,13 +1,13 @@
-// Ionic Starter App
+/***
+ * SOLFIT
+ */
+/* jshint -W097 */
+'use strict';
 
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-// 'starter.services' is found in services.js
-// 'starter.controllers' is found in controllers.js
+/* jshint -W117 */
 angular.module('solfit', ['ionic', 'solfit.controllers', 'solfit.services', 'ngCookies'])
 
-.run(function($ionicPlatform,$rootScope,$state,$location,AuthenticationService) {
+.run(function($ionicPlatform, $rootScope, $state, $location, AuthenticationService) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -19,12 +19,12 @@ angular.module('solfit', ['ionic', 'solfit.controllers', 'solfit.services', 'ngC
       StatusBar.styleDefault();
     }
   });
-  $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
-    if (toState.authenticate && !AuthenticationService.isLoggedIn()){
+  $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+    if (toState.authenticate && !AuthenticationService.isLoggedIn()) {
       // User isn’t authenticated
       console.log(AuthenticationService.isLoggedIn());
-      $state.transitionTo("login");
-      event.preventDefault(); 
+      $state.transitionTo('login');
+      event.preventDefault();
     }
   });
 })
@@ -39,9 +39,9 @@ angular.module('solfit', ['ionic', 'solfit.controllers', 'solfit.services', 'ngC
 
   // setup an abstract state for the tabs directive
   .state('tab', {
-    url: "/tab",
+    url: '/tab',
     abstract: true,
-    templateUrl: "templates/tabs.html",
+    templateUrl: 'templates/tabs.html',
     authenticate: true
   })
 
@@ -78,71 +78,68 @@ angular.module('solfit', ['ionic', 'solfit.controllers', 'solfit.services', 'ngC
     authenticate: true
   })
   .state('tab.log', {
-      url: '/log',
-      views: {
-          'tab-log': {
-              templateUrl: 'templates/tab-log.html',
-              controller: 'LogCtrl'
-          }
-      },
+    url: '/log',
+    views: {
+      'tab-log': {
+        templateUrl: 'templates/tab-log.html',
+        controller: 'LogCtrl'
+      }
+    },
     authenticate: true
   })
-
-    //Log -> LogRun
-    .state('tab.LogRun', {
-      url:'/log/logRun',
-      views: {
-        'tab-log' : {
-          templateUrl: 'templates/logRun.html',
-          controller: 'LogCtrl'
-        }
-      },
-      authenticate: true
-    })
-      
-    //Log -> LogSport
-    .state('tab.LogSport', {
-      url:'/log/logSport',
-      views: {
-        'tab-log' : {
-          templateUrl: 'templates/logSport.html',
-          controller: 'LogCtrl'
-        }
-      },
-      authenticate: true
-    })
-      
-    //Log -> LogWorkout
-    .state('tab.LogWorkout', {
-      url:'/log/logWorkout',
-      views: {
-        'tab-log' : {
-          templateUrl: 'templates/logWorkout.html',
-          controller: 'LogCtrl'
-        }
-      },
-      authenticate: true
-    })
-    //Log -> LogSteps
-    .state('tab.LogSteps', {
-      url:'/log/logSteps',
-      views: {
-        'tab-log' : {
-          templateUrl: 'templates/logSteps.html',
-          controller: 'LogCtrl'
-        }
-      },
-      authenticate: true
-    })
+  //Log -> LogRun
+  .state('tab.LogRun', {
+    url:'/log/logRun',
+    views: {
+      'tab-log' : {
+        templateUrl: 'templates/logRun.html',
+        controller: 'LogCtrl'
+      }
+    },
+    authenticate: true
+  })
+  //Log -> LogSport
+  .state('tab.LogSport', {
+    url:'/log/logSport',
+    views: {
+      'tab-log' : {
+        templateUrl: 'templates/logSport.html',
+        controller: 'LogCtrl'
+      }
+    },
+    authenticate: true
+  })
+  //Log -> LogWorkout
+  .state('tab.LogWorkout', {
+    url:'/log/logWorkout',
+    views: {
+      'tab-log' : {
+        templateUrl: 'templates/logWorkout.html',
+        controller: 'LogCtrl'
+      }
+    },
+    authenticate: true
+  })
+  //Log -> LogSteps
+  .state('tab.LogSteps', {
+    url:'/log/logSteps',
+    views: {
+      'tab-log' : {
+        templateUrl: 'templates/logSteps.html',
+        controller: 'LogCtrl'
+      }
+    },
+    authenticate: true
+  })
   .state('tab.standings', {
-      url: '/standings',
-      views: {
-          'tab-standings': {
-              templateUrl: 'templates/tab-standings.html',
-              controller: 'StandingsCtrl'
-          }
-      },
-      authenticate: true
+    url: '/standings',
+    views: {
+      'tab-standings': {
+        templateUrl: 'templates/tab-standings.html',
+        controller: 'StandingsCtrl'
+      }
+    },
+    authenticate: true
   })
   .state('tab.account', {
     url: '/account',
@@ -189,31 +186,26 @@ angular.module('solfit', ['ionic', 'solfit.controllers', 'solfit.services', 'ngC
     },
     authenticate: true
   })
-
-// the log-on screen
-  .state('login',{
-      url : '/login',
-      templateUrl : 'templates/login.html',
-      controller : 'LoginCtrl',
-      authenticate: false
-    })
-
+  // the log-on screen
+  .state('login', {
+    url : '/login',
+    templateUrl : 'templates/login.html',
+    controller : 'LoginCtrl',
+    authenticate: false
+  })
   // the signup screen
-  .state('signup',{
-      url : '/signup',
-      templateUrl : 'templates/signup.html',
-      controller : 'LoginCtrl',
-      authenticate: false
-    })
-
-  .state('logout',{
+  .state('signup', {
+    url : '/signup',
+    templateUrl : 'templates/signup.html',
+    controller : 'LoginCtrl',
+    authenticate: false
+  })
+  .state('logout', {
     url : '/logout',
     controller: 'LogoutCtrl',
     template: '',
     authenticate: true
-  })
-
+  });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/tab/dash');
-
 });
