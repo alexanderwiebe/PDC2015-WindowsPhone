@@ -265,22 +265,22 @@ angular.module('solfit.controllers', [])
       gender: $scope.user.gender,
       unit: $scope.user.unit
     };
-    PictureService.uploadPicture($scope.user.picture).then(function(data) {
+    persistanceService.updateUser(updateTheseFields, $scope.user.objectId, $cookies.currentSession).then(function() {
+      var alertPopup = $ionicPopup.alert({
+        title: 'Awesome work!!',
+        template: 'Profile Updated'
+      });
+      alertPopup.then(function(res) {
+        console.log('profile updated');
+      });
+    });
+    /*PictureService.uploadPicture($scope.user.picture).then(function(data) {
         console.log(data);
-        persistanceService.updateUser(updateTheseFields, $scope.user.objectId, $cookies.currentSession).then(function() {
-          var alertPopup = $ionicPopup.alert({
-            title: 'Awesome work!!',
-            template: 'Profile Updated'
-          });
-          alertPopup.then(function(res) {
-            console.log('profile updated');
-          });
-        });
+
       },
       function(error) {
         console.log(error);
-      });
-
+      });*/
   };
 
   $scope.$on('$ionicView.enter', function() {
