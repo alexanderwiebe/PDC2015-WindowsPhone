@@ -102,6 +102,11 @@ angular.module('solfit.controllers', [])
           $scope.workout.duration.second;
         $scope.workout.feelings = parseInt($scope.workout.feelings);
         $scope.workout.score = 0;
+        /*var myTeamQuery = {'Members':$scope.currentUser.objectId};
+        persistanceService.query('Team', myTeamQuery, null, 1000).then(function (d) {
+          $scope.myTeams = d.data.results;
+          persistanceService.update('Team', 'score', $scope.workout.score, $scope.myTeams[0].objectId)
+        });*/
         /*
         * yeah this will change
         * used 75 calories per km
