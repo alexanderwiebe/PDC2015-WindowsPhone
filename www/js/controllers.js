@@ -237,18 +237,34 @@ angular.module('solfit.controllers', [])
   });
 })
 
-.controller('AccountCtrl', function($scope, $cookies, $ionicPopup, persistanceService, PictureService) {
+.controller('AccountCtrl', function($scope, $cookies, $ionicPopup,$timeout, persistanceService, ProfileService, PictureService) {
   $scope.init = function() {
     $scope.user = {
+      profile: {}
+    };
+    $scope.user.profile = {
       name: '',
       age: 0,
       height: 0,
       weight: 0,
       gender: 'Female',
-      unit: 'Metric'
+      unit: 'Metric',
+      picture: {
+        name : '',
+        __type: 'File'
+      }
     };
     persistanceService.validate().then(function(d) {
       $scope.user = d.data;
+      $scope.user.profile = {};
+      $scope.user.profile.name = $scope.user.name;
+      $scope.user.profile.age = $scope.user.age;
+      $scope.user.profile.height = $scope.user.height;
+      $scope.user.profile.weight = $scope.user.weight;
+      $scope.user.profile.gender = $scope.user.gender;
+      $scope.user.profile.unit = $scope.user.unit;
+      $scope.user.profile.picture = $scope.user.picture;
+      console.log($scope.user);
     });
   };
   /*
@@ -256,16 +272,31 @@ angular.module('solfit.controllers', [])
    console.log(newVal);
    }, true);*/
 
+  $scope.uploadFile = function(files) {
+    PictureService.uploadPicture(files[0]).then(function(data) {
+      $scope.user.picture = data.data;
+      $scope.user.profile.picture = {
+        name : data.data.name,
+        __type: "File"
+      };
+      
+      /*
+    $http.post("https://api.parse.com/1/files/image.jpg", files[0], {
+           withCredentials: false,
+           headers: {
+               'X-Parse-Application-Id': PARSE_KEYS.APP_ID,
+               'X-Parse-REST-API-Key': PARSE_KEYS.REST_API,
+               'Content-Type': 'image/jpeg'
+           },
+           transformRequest: angular.identity
+    }).then(function(data) {
+    */
+    });
+  };
+
   $scope.updateProfile = function() {
-    var updateTheseFields = {
-      name: $scope.user.name,
-      age: $scope.user.age,
-      height: $scope.user.height,
-      weight: $scope.user.weight,
-      gender: $scope.user.gender,
-      unit: $scope.user.unit
-    };
-    persistanceService.updateUser(updateTheseFields, $scope.user.objectId, $cookies.currentSession).then(function() {
+    console.log($scope.user);
+    ProfileService.updateProfile($scope.user).then(function() {
       var alertPopup = $ionicPopup.alert({
         title: 'Awesome work!!',
         template: 'Profile Updated'
@@ -274,13 +305,6 @@ angular.module('solfit.controllers', [])
         console.log('profile updated');
       });
     });
-    /*PictureService.uploadPicture($scope.user.picture).then(function(data) {
-        console.log(data);
-
-      },
-      function(error) {
-        console.log(error);
-      });*/
   };
 
   $scope.$on('$ionicView.enter', function() {

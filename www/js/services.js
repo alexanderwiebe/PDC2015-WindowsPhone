@@ -158,6 +158,26 @@ angular.module('solfit.services', [])
     };
   })
 
+  .factory('ProfileService', function($http, PARSE_CREDENTIALS) {
+    return {
+      updateProfile: function(user) {
+        return $http.put('https://api.parse.com/1/users/' + user.objectId, user.profile, {
+          headers: {
+            'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+            'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
+            'X-Parse-Session-Token': user.sessionToken
+          }
+        }).success(function(response) {
+          if (response.error) {
+            return false;
+          }
+        }).error(function(response) {
+          return false;
+        });
+      }
+    }
+  })
+
   .factory('TeamService', function($http, PARSE_CREDENTIALS) {
     //where={"race":{"__type":"Pointer","className":"Race","objectId":"8TOXdXf3tz"}}'
     //'where={"post":{"__type":"Pointer","className":"Post","objectId":"8TOXdXf3tz"}}'
@@ -181,11 +201,12 @@ angular.module('solfit.services', [])
   .factory('PictureService', function($http, PARSE_CREDENTIALS) {
     return {
       uploadPicture: function(file) {
-        return $http.post('https://api.parse.com/1/files/pic.jpeg', file, {
+        console.log(file);
+        return $http.post('https://api.parse.com/1/files/' + file.name, file, {
           headers: {
             'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
             'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
-            'Content-Type': 'image/jpeg'
+            'Content-Type': 'image/png'
           }
         });
       }

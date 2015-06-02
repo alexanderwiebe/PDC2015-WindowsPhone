@@ -7,7 +7,7 @@
 /* jshint -W117 */
 angular.module('solfit', ['ionic', 'solfit.controllers', 'solfit.services', 'ngCookies'])
 
-.run(function($ionicPlatform, $rootScope, $state, $location, AuthenticationService) {
+.run(function($ionicPlatform, $rootScope, $state, $location,$timeout, AuthenticationService) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)

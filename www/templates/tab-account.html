@@ -2,6 +2,11 @@
   <ion-content class="pdc-account">
     <ion-list>
       <label class="item item-input">
+        <span class="input-label">Photo</span>
+        <img src="{{user.picture.url}}" width="125px" height="125px">
+        <input type="file" ng-model="user.picture" onchange="angular.element(this).scope().uploadFile(this.files)">
+      </label>
+      <label class="item item-input">
         <span class="input-label">Name</span>
         <input type="text" ng-model="user.name">
       </label>
