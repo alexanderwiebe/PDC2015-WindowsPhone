@@ -16,6 +16,11 @@ $royal:                           #886aea !default;
 $dark:                            #444 !default;
 */
 /*login page*/
+.pdc-login .error-state {
+  border: medium solid red; }
+.pdc-login .error-message {
+  color: red; }
+
 /*account tab*/
 /*dash tab*/
 .pdc-dash .user-score {
