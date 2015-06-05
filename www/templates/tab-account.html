@@ -3,8 +3,8 @@
     <ion-list>
       <label class="item item-input">
         <span class="input-label">Photo</span>
-        <img src="{{user.picture.url}}" width="125px" height="125px">
-        <input type="file" ng-model="user.picture" onchange="angular.element(this).scope().uploadFile(this.files)">
+        <img src="{{user.picture.url}}" ng-click="triggerUpload()" width="125px" height="125px">
+        <input type="file" ng-model="user.picture" onchange="angular.element(this).scope().uploadFile(this.files)" style="display: none;" id="profileInput">
       </label>
       <label class="item item-input">
         <span class="input-label">Name</span>

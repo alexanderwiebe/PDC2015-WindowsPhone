@@ -271,7 +271,21 @@ angular.module('solfit.controllers', [])
    $scope.$watch($scope.user.name, function(newVal, oldVal){
    console.log(newVal);
    }, true);*/
+  $scope.triggerUpload=function()
+  {
+   var fileuploader = angular.element("#profileInput");
+      fileuploader.on('click',function(){
+      });
+      fileuploader.trigger('click')
+  }
 
+  $scope.uploadImage=function(selectedfiles)
+  {
+      $upload.upload({
+         url:"link to server script",
+         file:selectedFiles
+      })
+  }
   $scope.uploadFile = function(files) {
     PictureService.uploadPicture(files[0]).then(function(data) {
       $scope.user.picture = data.data;
@@ -279,7 +293,7 @@ angular.module('solfit.controllers', [])
         name : data.data.name,
         __type: "File"
       };
-      
+
       /*
     $http.post("https://api.parse.com/1/files/image.jpg", files[0], {
            withCredentials: false,
