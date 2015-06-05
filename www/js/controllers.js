@@ -5,6 +5,15 @@
 angular.module('solfit.controllers', [])
 
 .controller('DashCtrl', function($scope, persistanceService) {
+
+  $scope.labels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+  $scope.series = ['Series A', 'Series B'];
+
+  $scope.data = [
+    [65, 59, 80, 81, 56, 55, 40],
+    [28, 48, 40, 19, 86, 27, 90]
+  ];
+
   $scope.init = function() {
     persistanceService.validate().then(function(d) {
       $scope.currentUser = d.data;
@@ -278,14 +287,6 @@ angular.module('solfit.controllers', [])
       });
       fileuploader.trigger('click')
   }
-
-  $scope.uploadImage=function(selectedfiles)
-  {
-      $upload.upload({
-         url:"link to server script",
-         file:selectedFiles
-      })
-  }
   $scope.uploadFile = function(files) {
     PictureService.uploadPicture(files[0]).then(function(data) {
       $scope.user.picture = data.data;
@@ -293,18 +294,6 @@ angular.module('solfit.controllers', [])
         name : data.data.name,
         __type: "File"
       };
-
-      /*
-    $http.post("https://api.parse.com/1/files/image.jpg", files[0], {
-           withCredentials: false,
-           headers: {
-               'X-Parse-Application-Id': PARSE_KEYS.APP_ID,
-               'X-Parse-REST-API-Key': PARSE_KEYS.REST_API,
-               'Content-Type': 'image/jpeg'
-           },
-           transformRequest: angular.identity
-    }).then(function(data) {
-    */
     });
   };
 

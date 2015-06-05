@@ -5,7 +5,7 @@
 'use strict';
 
 /* jshint -W117 */
-angular.module('solfit', ['ionic', 'solfit.controllers', 'solfit.services', 'ngCookies'])
+angular.module('solfit', ['ionic', 'solfit.controllers', 'solfit.services', 'ngCookies', 'chart.js'])
 
 .run(function($ionicPlatform, $rootScope, $state, $location,$timeout, AuthenticationService) {
   $ionicPlatform.ready(function() {
