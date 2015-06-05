@@ -18,6 +18,12 @@ $dark:                            #444 !default;
 
 /*login page*/
 .pdc-login {
+  .error-state {
+    border: medium solid red;
+  }
+  .error-message{
+    color:red;
+  }
 }
 
 /*account tab*/

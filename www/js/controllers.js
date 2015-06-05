@@ -516,6 +516,8 @@ angular.module('solfit.controllers', [])
       },
       function(error) {
         console.log(error);
+        $scope.errorMessage = 'Incorrect username or password';
+        $scope.errorState = true;
       }
     );
   };
