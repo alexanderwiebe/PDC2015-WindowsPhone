@@ -216,13 +216,11 @@ angular.module('solfit.services', [])
     return {
       getRacesByOrganization: function(organization) {
         var currentTime = new Date();
-        currentTime.setHours(currentTime.getHours() - 1);
+        currentTime.setHours(currentTime.getHours());
         currentTime = $filter('date')(currentTime, 'yyyy-MM-ddTHH:mm:ss.sss');
         currentTime = currentTime.toString() + 'Z';
+
         console.log(currentTime);
-        console.log('{"endDate":{"$gte":{"__type":"Date","iso":"' + currentTime + '"}},' +
-              '"organizationCode":"' + organization + '"}');
-        console.log(new Date().toISOString());
 
         return $http.get('https://api.parse.com/1/classes/Races', {
           params: {
@@ -236,11 +234,17 @@ angular.module('solfit.services', [])
         });
       },
       createRace: function(race) {
-        race.endDate = {"__type": "Date","iso": "" + race.endDate.toISOString() + ""};
-        race.startDate = {"__type": "Date","iso": "" + race.startDate.toISOString() + ""};
-        console.log(race.endDate);
-        //race.endDate = race.endDate.toISOString();
-        //race.startDate = race.startDate.toISOString();
+        // don't want any hour or minutes on the date so have to do it this way
+        // also, we have endDate/endDateString and startDate/startDateString because
+        // the model validation triggers if we just use endDate and startDate
+        // after we turn it into json... it doesn't go back to a date angular likes
+        race.endDate = $filter('date')(race.endDateString, 'yyyy-MM-ddTHH:mm:ss.sss');
+        race.endDate = race.endDate.toString() + 'Z';
+        race.startDate = $filter('date')(race.startDateString, 'yyyy-MM-ddTHH:mm:ss.sss');
+        race.startDate = race.startDate.toString() + 'Z';
+
+        race.endDate = {"__type": "Date","iso": "" + race.endDate + ""};
+        race.startDate = {"__type": "Date","iso": "" + race.startDate + ""};
         return $http.post('https://api.parse.com/1/classes/Races', race, {
           headers: {
             'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,

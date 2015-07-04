@@ -406,6 +406,9 @@ angular.module('solfit.controllers', [])
   $scope.createRace = function(race) {
     race.organizationCode = $scope.currentUser.code;
     RaceService.createRace(race).then(function() {
+      console.log(race);
+      race.endDate = new Date(race.endDate.iso);
+      race.startDate = new Date(race.startDate.iso);
       console.log('created race');
       $state.go('tab.races');
     });
