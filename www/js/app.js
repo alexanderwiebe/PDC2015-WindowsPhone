@@ -163,6 +163,17 @@ angular.module('solfit', ['ionic', 'solfit.controllers', 'solfit.services', 'ngC
     authenticate: true
   })
 
+  .state('tab.admin', {
+    url: '/admin',
+    views: {
+      'tab-admin': {
+        templateUrl: 'templates/tab-admin.html',
+        controller: 'AdminCtrl'
+      }
+    },
+    authenticate: true
+  })
+
   //Teams -> TeamCreate
   .state('tab.teamCreate', {
     url: '/teams/teamCreate',

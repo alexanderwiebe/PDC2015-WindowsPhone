@@ -214,11 +214,15 @@ angular.module('solfit.services', [])
   })
   .factory('RaceService', function($http, PARSE_CREDENTIALS, $filter) {
     return {
-      queryByOrganization: function(organization) {
+      getRacesByOrganization: function(organization) {
         var currentTime = new Date();
         currentTime.setHours(currentTime.getHours() - 1);
         currentTime = $filter('date')(currentTime, 'yyyy-MM-ddTHH:mm:ss.sss');
         currentTime = currentTime.toString() + 'Z';
+        console.log(currentTime);
+        console.log('{"endDate":{"$gte":{"__type":"Date","iso":"' + currentTime + '"}},' +
+              '"organizationCode":"' + organization + '"}');
+        console.log(new Date().toISOString());
 
         return $http.get('https://api.parse.com/1/classes/Races', {
           params: {
@@ -232,6 +236,11 @@ angular.module('solfit.services', [])
         });
       },
       createRace: function(race) {
+        race.endDate = {"__type": "Date","iso": "" + race.endDate.toISOString() + ""};
+        race.startDate = {"__type": "Date","iso": "" + race.startDate.toISOString() + ""};
+        console.log(race.endDate);
+        //race.endDate = race.endDate.toISOString();
+        //race.startDate = race.startDate.toISOString();
         return $http.post('https://api.parse.com/1/classes/Races', race, {
           headers: {
             'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
@@ -255,6 +264,38 @@ angular.module('solfit.services', [])
             'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY
           }
         });
+      },
+      getRaceTypes: function() {
+        let raceTypes =
+        [
+          {
+            label: 'Around the World',
+            value: 'AROUNDTHEWORLD',
+            description: 'Have the teams compete in a race around the entire world!'
+          },
+          {
+            label: 'Across Canada',
+            value: 'ACROSSCANADA',
+            description: 'Using the power of maple syrup, the teams will compete in a race from somewhere in the maritimes to like Tofino I guess.'
+          },
+          {
+            label: 'Through the Rockies',
+            value: 'ROCKIES',
+            description: 'Saddle up your moose and compete from some northern part of the rockies to Banff!'
+          },
+          {
+            label: 'To Cancun!',
+            value: 'CANCUN',
+            description: 'Be the first to Cancun from... Vancouver?'
+          },
+          {
+            label: 'Through the Sahara',
+            value: 'SAHARA',
+            description: 'I hate sand... it is so... coarse.'
+          }
+        ];
+
+        return raceTypes;
       }
     };
   })
@@ -324,6 +365,21 @@ angular.module('solfit.services', [])
         } else {
           return false;
         }
+      },
+      validate: function() {
+        return $http.get('https://api.parse.com/1/users/me', {
+          headers: {
+            'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+            'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
+            'X-Parse-Session-Token': $cookies.currentSession
+          }
+        }).success(function(response) {
+          if (response.error) {
+            return false;
+          }
+        }).error(function(response) {
+          return false;
+        });
       }
     };
   })

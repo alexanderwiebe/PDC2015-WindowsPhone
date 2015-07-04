@@ -404,6 +404,7 @@ angular.module('solfit.controllers', [])
   };
 
   $scope.createRace = function(race) {
+    race.organizationCode = $scope.currentUser.code;
     RaceService.createRace(race).then(function() {
       console.log('created race');
       $state.go('tab.races');
@@ -415,6 +416,33 @@ angular.module('solfit.controllers', [])
   $scope.$on('$ionicView.enter', function() {
     $scope.init();
   });
+})
+
+.controller('AdminCtrl', function($scope, AuthenticationService, RaceService) {
+  $scope.init = function() {
+    // ensure the user is still valid and get their account details
+    AuthenticationService.validate()
+    .then(function(d) {
+      $scope.currentUser = d.data;
+    })
+    .then(function() {
+      if (!$scope.currentUser.isAdmin)
+      {
+        console.log("Error: user is not admin");
+      }
+      RaceService.getRacesByOrganization($scope.currentUser.code).then(function(d) {
+        $scope.races = d.data.results;
+      });
+      $scope.raceTypes = RaceService.getRaceTypes();
+      console.log($scope.raceTypes);
+    });
+  };
+
+  $scope.getRacesByOrganization = function() {
+
+  };
+
+  $scope.init();
 })
 
 .controller('TeamCtrl', function($scope, persistanceService, RaceService) {
