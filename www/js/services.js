@@ -3,6 +3,58 @@
 
 /* jshint -W117 */
 angular.module('solfit.services', [])
+  .factory('DashboardService', function($http, $cookies, PARSE_CREDENTIALS, $filter) {
+    return {
+      activeRacesByUser: function(userId) {
+        var currentTime = new Date();
+        currentTime.setHours(currentTime.getHours());
+        currentTime = $filter('date')(currentTime, 'yyyy-MM-ddTHH:mm:ss.sss');
+        currentTime = currentTime.toString() + 'Z';
+        console.log(currentTime);
+        return $http.get('https://api.parse.com/1/classes/Team', {
+          params: {
+            where: '{"Members":"' + userId + '",' +
+                      '"raceId":{'+
+                        '"$select":{' +
+                          '"query":{' +
+                            '"className":"Races",' +
+                            '"where":{' +
+                              '"endDate":{"$gte":{"__type":"Date","iso":"' + currentTime +'"}}' +
+                            '}' +
+                          '},' +
+                          '"key":"objectId"' +
+                        '}' +
+                      '}' +
+                    '}'
+           ,include: "race"
+          },
+          headers: {
+            'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+            'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY
+          }
+        });
+      }
+    }
+  })
+
+  .factory('WorkoutService', function($http, $cookies, PARSE_CREDENTIALS) {
+    return {
+      recentWorkoutsByUser: function(userId) {
+        return $http.get('https://api.parse.com/1/classes/Workout', {
+          params: {
+            where: '{"userId":"' + userId + '"}',
+            order: '-updatedAt',
+            limit: 7
+          },
+          headers: {
+            'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+            'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY
+          }
+        });
+      }
+    }
+  })
+
   .factory('persistanceService', function($http, $cookies, PARSE_CREDENTIALS) {
     return {
       /**
@@ -161,6 +213,7 @@ angular.module('solfit.services', [])
   .factory('ProfileService', function($http, PARSE_CREDENTIALS) {
     return {
       updateProfile: function(user) {
+        console.log(user);
         return $http.put('https://api.parse.com/1/users/' + user.objectId, user.profile, {
           headers: {
             'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
@@ -233,6 +286,7 @@ angular.module('solfit.services', [])
           }
         });
       },
+
       createRace: function(race) {
         // don't want any hour or minutes on the date so have to do it this way
         // also, we have endDate/endDateString and startDate/startDateString because
@@ -250,6 +304,14 @@ angular.module('solfit.services', [])
             'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
             'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
             'Content-Type': 'application/json'
+          }
+        });
+      },
+      deleteRace: function(race) {
+        return $http.delete('https://api.parse.com/1/classes/Races/' + race.objectId, {
+          headers: {
+            'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+            'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY
           }
         });
       },
@@ -305,7 +367,88 @@ angular.module('solfit.services', [])
   })
 //.factory('Auth',function() { return { isLoggedIn : false}; })
   .factory('AuthenticationService', function($http, $cookies, $location, PARSE_CREDENTIALS) {
+    /*
+    this.validate = function() {
+      return $http.get('https://api.parse.com/1/users/me', {
+        headers: {
+          'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+          'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
+          'X-Parse-Session-Token': $cookies.currentSession
+        }
+      }).success(function(response) {
+        if (response.error) {
+          return false;
+        }
+      }).error(function(response) {
+        return false;
+      });
+    };
+
+    this.login = function(credentials) {
+      return $http.get('https://api.parse.com/1/login', {
+        params: {
+          username: credentials.email,
+          password: credentials.password
+        },
+        headers: {
+          'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+          'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY
+        }
+      }).success(function(data, status, headers, config) {
+        $cookies.currentSession = data.sessionToken;//save session
+      });
+    };
+
+    this.logout = function() {
+      var sessionToken = $cookies.currentSession;
+      console.log("in logout service");
+
+      return $http.post('https://api.parse.com/1/logout', '', {
+        headers: {
+          'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+          'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
+          'X-Parse-Session-Token': sessionToken
+        }
+      });
+    };
+    this.signup = function(profile) {
+      //console.log(profile);
+      profile.email = profile.username;
+      return $http.post('https://api.parse.com/1/users', profile, {
+        headers: {
+          'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+          'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
+          'Content-Type': 'application/json'
+        }
+      });
+    };
+    this.isLoggedIn = function() {
+      //console.log($http.defaults.headers.common.Authorization)
+      //if ($http.defaults.headers.common.Authorization)
+      console.log('in isLoggedIn' + $cookies.currentSession);
+      if ($cookies.currentSession) {
+        return true;
+      } else {
+        return false;
+      }
+    };*/
+
     return {
+      validate: function() {
+        return $http.get('https://api.parse.com/1/users/me', {
+          headers: {
+            'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+            'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
+            'X-Parse-Session-Token': $cookies.currentSession
+          }
+        }).success(function(response) {
+          if (response.error) {
+            return false;
+          }
+        }).error(function(response) {
+          return false;
+        });
+      },
       login: function(credentials) {
 
         //console.log(credentials);
@@ -321,17 +464,10 @@ angular.module('solfit.services', [])
           }
         }).success(function(data, status, headers, config) {
           //$http.defaults.headers.common.Authorization = data.sessionToken;
-          /*console.log(data);
-          console.log(status);
-          console.log(headers());
-          console.log(config);*/
 
           $cookies.currentSession = data.sessionToken;//save session
-
-          /*authService.loginConfirmed(data, function(config) {  // Step 2 & 3
-           config.headers.Authorization = data.sessionToken;
-           return config;
-           });*/
+          //this.currentUser = data;
+          //console.log('From sessionService: ' + this.currentUser);
         });
       },
       logout: function() {

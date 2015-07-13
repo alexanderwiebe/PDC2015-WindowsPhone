@@ -1,15 +1,23 @@
 <ion-view view-title="Account">
   <ion-content class="pdc-account">
     <ion-list>
+      <div class="item item-divider">
+        Profile
+      </div>
       <label class="item item-input">
         <span class="input-label">Photo</span>
-        <img src="{{user.picture.url}}" ng-click="triggerUpload()" width="125px" height="125px">
+        <img src="{{user.profile.picture.url}}" ng-click="triggerUpload()" width="125px" height="125px">
         <input type="file" ng-model="user.picture" onchange="angular.element(this).scope().uploadFile(this.files)" style="display: none;" id="profileInput">
       </label>
       <label class="item item-input">
         <span class="input-label">Name</span>
-        <input type="text" ng-model="user.name">
+        <input type="text" ng-model="user.profile.name">
       </label>
+      <label class="item item-input">
+        <span class="input-label">E-mail</span>
+        <input type="text" ng-model="user.profile.email">
+      </label>
+      <!--
       <label class="item item-input">
         <span class="input-label">Age</span>
         <input type="number" ng-model="user.age">
@@ -40,9 +48,17 @@
           <option>Male</option>
         </select>
       </label>
-      <label class="item item-input pdc-save-button">
-        <button class="button button-balanced" ng-click="updateProfile()">
+      -->
+      <label class="item">
+        <button class="button button-outline button-block button-balanced" ng-click="updateProfile()">
           Update Profile!
+        </button>
+      </label>
+      <div class="item item-divider">
+      </div>
+      <label class="item">
+        <button class="button button-outline button-block button-assertive" ng-click="logout()">
+          Logout
         </button>
       </label>
     </ion-list>

@@ -10,16 +10,19 @@
           <button ng-click="openModal(race)" class="button button-full button-balanced">
             Join This Race!
           </button>
+          <button ng-click="deleteRace(race)" ng-show="canDelete" class="button button-full button-assertive">
+            Delete
+          </button>
         </div>
     </div>
     <center>
-    <a class="button button-clear button-positive icon icon-right ion-flag" href="#/tab/races/createrace" ng-show="races.length > 0">Create A Race</a>
+    <a class="button button-clear button-positive icon icon-right ion-flag" href="#/tab/admin/races/createrace" ng-show="races.length > 0">Create A Race</a>
     </center>
     <div ng-hide="races.length > 0">
       <center>
     No races found... but you can...
       <br>
-      <a class="button button-clear button-positive icon icon-right ion-flag" href="#/tab/races/createrace">Create One</a>
+      <a class="button button-clear button-positive icon icon-right ion-flag" href="#/tab/admin/races/createrace">Create One</a>
       </center>
     </div>
   </ion-content>

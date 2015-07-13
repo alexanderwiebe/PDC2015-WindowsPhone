@@ -31,13 +31,8 @@ navigation history that also transitions its views in and out.
   </ion-tab>
 
   <!-- Admin Tab --> 
-  <ion-tab title="Admin" icon-off="ion-ios-flower-outline" icon-on="ion-ios-flower" href="#/tab/admin">
+  <ion-tab title="Admin" icon-off="ion-ios-flower-outline" icon-on="ion-ios-flower" href="#/tab/admin" hidden="{{!currentUser.isAdmin}}">
     <ion-nav-view name="tab-admin"></ion-nav-view>
   </ion-tab>
-
-  <ion-tab title="Logout" icon-off="ion-log-out" icon-on="ion-log-out" href="#/logout">
-    <ion-nav-view name="tab-logout"></ion-nav-view>
-  </ion-tab>
-
 
 </ion-tabs>

@@ -4,7 +4,7 @@
 /* jshint -W117 */
 angular.module('solfit.controllers', [])
 
-.controller('DashCtrl', function($scope, persistanceService) {
+.controller('DashCtrl', function($scope, $rootScope, AuthenticationService, DashboardService, WorkoutService) {
 
   $scope.labels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
   $scope.series = ['Series A', 'Series B'];
@@ -15,12 +15,24 @@ angular.module('solfit.controllers', [])
   ];
 
   $scope.init = function() {
-    persistanceService.validate().then(function(d) {
+    AuthenticationService.validate().then(function(d) {
       $scope.currentUser = d.data;
-      //console.log($scope.currentUser);
+      $rootScope.currentUser = d.data;
+      console.log($rootScope.currentUser);
     }).then(function() {
-      var queryValue = {'userId': $scope.currentUser.objectId};
-      persistanceService.query('workout', queryValue, '-updatedAt', 7)
+
+      DashboardService.activeRacesByUser($scope.currentUser.objectId).then(function(result) {
+        console.log(result);
+        if (result.data.size > 0)
+        {
+          $scope.isInActiveRace = true;
+          $scope.activeRace = result.data;
+        }
+      });
+
+      WorkoutService.recentWorkoutsByUser($scope.currentUser.objectId)
+      //var queryValue = {'userId': $scope.currentUser.objectId};
+      //persistanceService.query('workout', queryValue, '-updatedAt', 7)
         .then(function(result) {
           //success
           //console.log('success');
@@ -64,7 +76,7 @@ angular.module('solfit.controllers', [])
         });
     });
   };
-  $scope.init();
+  //$scope.init();
 
   $scope.$on('$ionicView.enter', function() {
     $scope.init();
@@ -246,7 +258,7 @@ angular.module('solfit.controllers', [])
   });
 })
 
-.controller('AccountCtrl', function($scope, $cookies, $ionicPopup,$timeout, persistanceService, ProfileService, PictureService) {
+.controller('AccountCtrl', function($scope, $cookies, $ionicPopup,$timeout, AuthenticationService, ProfileService, PictureService) {
   $scope.init = function() {
     $scope.user = {
       profile: {}
@@ -256,6 +268,7 @@ angular.module('solfit.controllers', [])
       age: 0,
       height: 0,
       weight: 0,
+      email: '',
       gender: 'Female',
       unit: 'Metric',
       picture: {
@@ -263,7 +276,7 @@ angular.module('solfit.controllers', [])
         __type: 'File'
       }
     };
-    persistanceService.validate().then(function(d) {
+    AuthenticationService.validate().then(function(d) {
       $scope.user = d.data;
       $scope.user.profile = {};
       $scope.user.profile.name = $scope.user.name;
@@ -273,6 +286,7 @@ angular.module('solfit.controllers', [])
       $scope.user.profile.gender = $scope.user.gender;
       $scope.user.profile.unit = $scope.user.unit;
       $scope.user.profile.picture = $scope.user.picture;
+      $scope.user.profile.email = $scope.user.email;
       console.log($scope.user);
     });
   };
@@ -309,6 +323,20 @@ angular.module('solfit.controllers', [])
       });
     });
   };
+
+  $scope.logout = function() {
+    console.log('logging out');
+    var logoutPromise = AuthenticationService.logout();
+    logoutPromise.then(
+      function(data) {
+        /*
+        $cookies.currentSession = undefined;
+        delete $cookies.currentSession;
+        $location.path('/login');*/
+        console.log('logout successful');
+      }
+    );
+  }
 
   $scope.$on('$ionicView.enter', function() {
     $scope.init();
@@ -433,16 +461,28 @@ angular.module('solfit.controllers', [])
       {
         console.log("Error: user is not admin");
       }
+      
       RaceService.getRacesByOrganization($scope.currentUser.code).then(function(d) {
         $scope.races = d.data.results;
       });
       $scope.raceTypes = RaceService.getRaceTypes();
+      if ($scope.currentUser.isAdmin)
+      {
+        $scope.canDelete = true;
+      }
+      else
+      {
+        $scope.canDelete = false;
+      }
       console.log($scope.raceTypes);
     });
   };
 
-  $scope.getRacesByOrganization = function() {
-
+  $scope.deleteRace = function(race) {
+    RaceService.deleteRace(race).then(function() {
+      var index = $scope.races.indexOf(race);
+      $scope.races.splice(index, 1);
+    });
   };
 
   $scope.init();
@@ -468,13 +508,16 @@ angular.module('solfit.controllers', [])
         console.log('All Teams');
         console.log($scope.allTeams);
       });
-    });
-    RaceService.getActiveRaces().then(function(d) {
-      $scope.races = d.data.results;
+
+      RaceService.getRacesByOrganization($scope.currentUser.code).then(function(races) {
+        $scope.races = races.data.results;
+        console.log('Races by organization:'); 
+        console.log($scope.races);
+      });
     });
 
   };
-  $scope.init();
+  //$scope.init();
 
   $scope.leaveTeam = function(leaveThisTeam) {
     var updateOp = {'Members': {'__op': 'Remove', 'objects': [$scope.currentUser.objectId]}};
@@ -490,7 +533,7 @@ angular.module('solfit.controllers', [])
       'objectId': '' + $scope.newTeam.race.objectId + ''
     };
     console.log($scope.newTeam);
-    $scope.newTeam.Members = [$scope.currentUser.objectId];
+    $scope.newTeam.members = [$scope.currentUser.objectId];
     persistanceService.save($scope.newTeam, 'Team', $scope.currentUser.objectId).then(function(i) {
       //success
       console.log('success');
@@ -513,25 +556,31 @@ angular.module('solfit.controllers', [])
   });
 })
 
-.controller('LogoutCtrl', function($scope, $cookies, $location, AuthenticationService) {
+.controller('LogoutCtrl', function($scope, $rootScope, $cookies, $location, AuthenticationService) {
   console.log('logging out');
   var logoutPromise = AuthenticationService.logout();
   logoutPromise.then(
     function(data) {
+      /*
+      $cookies.currentSession = undefined;
+      delete $cookies.currentSession;
+      $location.path('/login');*/
       console.log('logout successful');
     }
   );
 })
 
-.controller('LoginCtrl', function($scope, AuthenticationService, $state) {
+.controller('LoginCtrl', function($scope, $rootScope, AuthenticationService, $state) {
   $scope.auth = AuthenticationService;
 
   $scope.login = function(credentials) {
     console.log('logging in');
     var loginPromise = AuthenticationService.login(credentials);
     loginPromise.then(
-      function(data) {
+      function(d) {
         console.log('login successful');
+        //console.log(d);
+        $rootScope.currentUser = d.data;
         $state.transitionTo('tab.dash');
       },
       function(error) {

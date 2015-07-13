@@ -7,7 +7,7 @@
 /* jshint -W117 */
 angular.module('solfit', ['ionic', 'solfit.controllers', 'solfit.services', 'ngCookies', 'chart.js'])
 
-.run(function($ionicPlatform, $rootScope, $state, $location,$timeout, AuthenticationService) {
+.run(function($ionicPlatform, $rootScope, $state, $location, $timeout, AuthenticationService) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -20,12 +20,21 @@ angular.module('solfit', ['ionic', 'solfit.controllers', 'solfit.services', 'ngC
     }
   });
   $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+    console.log(toState);
     if (toState.authenticate && !AuthenticationService.isLoggedIn()) {
       // User isn’t authenticated
       console.log(AuthenticationService.isLoggedIn());
       $state.transitionTo('login');
       event.preventDefault();
     }
+    else
+    {
+      console.log("hi");
+      //AuthenticationService.validate().then(function(d) {
+      //  $rootScope.currentUser = d.data;
+      //});
+    }
+    //console.log($rootScope.currentUser);
   });
 })
 
@@ -60,7 +69,7 @@ angular.module('solfit', ['ionic', 'solfit.controllers', 'solfit.services', 'ngC
   .state('tab.races', {
     url: '/races',
     views: {
-      'tab-dash': {
+      'tab-admin': {
         templateUrl: 'templates/events.html',
         controller: 'RacesCtrl'
       }
@@ -70,7 +79,7 @@ angular.module('solfit', ['ionic', 'solfit.controllers', 'solfit.services', 'ngC
   .state('tab.createrace', {
     url:'/races/createrace',
     views: {
-      'tab-dash': {
+      'tab-admin': {
         templateUrl: 'templates/createrace.html',
         controller: 'RacesCtrl'
       }
@@ -214,7 +223,7 @@ angular.module('solfit', ['ionic', 'solfit.controllers', 'solfit.services', 'ngC
   .state('logout', {
     url : '/logout',
     controller: 'LogoutCtrl',
-    template: '',
+    template: 'templates/logout.html',
     authenticate: true
   });
   // if none of the above states are matched, use this as the fallback
