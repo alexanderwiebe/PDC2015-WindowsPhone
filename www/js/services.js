@@ -40,7 +40,7 @@ angular.module('solfit.services', [])
   .factory('WorkoutService', function($http, $cookies, PARSE_CREDENTIALS) {
     return {
       recentWorkoutsByUser: function(userId) {
-        return $http.get('https://api.parse.com/1/classes/Workout', {
+        return $http.get('https://api.parse.com/1/classes/workout', {
           params: {
             where: '{"userId":"' + userId + '"}',
             order: '-updatedAt',
@@ -246,6 +246,22 @@ angular.module('solfit.services', [])
             'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
             'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY
           }
+        });
+      },
+      joinTeam: function(team, userId) {
+        return $http.put('https://api.parse.com/1/classes/Team/' + team.objectId,
+          '{"Members":{"__op":"AddUnique","objects":["' + userId + '"]}}', {
+          headers: {
+            'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+            'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
+            "Content-Type": "application/json"
+          }
+        }).success(function(response) {
+          if (response.error) {
+            return false;
+          }
+        }).error(function(response) {
+          return false;
         });
       }
     };

@@ -4,7 +4,7 @@
 /* jshint -W117 */
 angular.module('solfit.controllers', [])
 
-.controller('DashCtrl', function($scope, $rootScope, AuthenticationService, DashboardService, WorkoutService, RaceService) {
+.controller('DashCtrl', function($scope, $rootScope, $ionicModal, AuthenticationService, DashboardService, WorkoutService, RaceService, TeamService) {
 
   $scope.labels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
   $scope.series = ['Series A', 'Series B'];
@@ -100,6 +100,44 @@ angular.module('solfit.controllers', [])
     });
   };
   //$scope.init();
+  $ionicModal.fromTemplateUrl('/templates/modal-jointeam.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+  $scope.openModal = function(race) {
+    $scope.race = race;
+    TeamService.getTeamsByRace(race.objectId).then(function(d) {
+      $scope.teams = d.data.results;
+      $scope.modal.show();
+    });
+  };
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+    // Execute action
+  });
+
+  $scope.joinTeam = function(team) {
+    TeamService.joinTeam(team, $scope.currentUser.objectId);
+    /*var updateOp = {'Members': {'__op': 'Add', 'objects': [$scope.currentUser.objectId]}};
+    persistanceService.updateArray('Team', team.objectId, updateOp).then(function(d) {
+      $scope.init();
+      console.log('hey added you to the team');
+      $scope.closeModal();
+    });*/
+  };
 
   $scope.$on('$ionicView.enter', function() {
     $scope.init();

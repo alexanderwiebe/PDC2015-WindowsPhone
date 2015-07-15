@@ -26,12 +26,12 @@
         No active race...
         </div>
     </ion-content>
-    <ion-content class="padding" ng-show="isInActiveRace">
-        <div ng-show="raceHasStarted()">
-
+    <ion-content class="" ng-show="isInActiveRace">
+        <div style="text-align: center" ng-show="activeRaceHasStarted">
+            <h1>{{activeRace.name}}</h1>
         </div>
-        <div ng-show="!raceHasStarted()">
-        
+        <div ng-show="!activeRaceHasStarted">
+            <h1>{{activeRace.name}} begins {{activeRace.startDate.iso | date:'MMMM dd, yyyy'}}</h1>
         </div>
         <div class="date-container">
           <a class="date-inline date-left button icon-left ion-chevron-left button-clear button dark"></a>
@@ -102,11 +102,6 @@
                 </defs>
             </svg>
         </div> 
-        <a href="#/tab/races">
-            <button class="button button-block button-positive">
-              Join a Race
-          </button>
-        </a>
 
         <div class="list card">
             <div class="item item-divider">Recent Updates</div>
