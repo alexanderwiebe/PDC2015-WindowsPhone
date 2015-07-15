@@ -1,87 +1,120 @@
 <ion-view view-title="Solfit" class="slf-dash">
-<ion-content class="padding">
-    <div class="date-container">
-      <a class="date-inline date-left button icon-left ion-chevron-left button-clear button dark"></a>
-      <div class="date date-center date-inline ">April 28, 2015</div>
-      <a class="date-inline date-right button icon-right ion-chevron-right button-clear button dark"></a>
-    </div>
-    <hr class="date-divider" />
-    <div class="sub-container">
-        <canvas id="bar" class="chart chart-bar" data="data" labels="labels"></canvas> 
-    </div>
-    <div class="sub-container">
-        <ul class="progress">
-            <li data-name="Steps" data-percent="{{ score }}">
-                <svg viewBox="-10 -10 220 220">
-                    <g fill="none" stroke-width="12" transform="translate(100,100)">
-                        <path d="M 0,-100 A 100,100 0 0,1 86.6,-50" stroke="url(#cl1)" />
-                        <path d="M 86.6,-50 A 100,100 0 0,1 86.6,50" stroke="url(#cl2)" />
-                        <path d="M 86.6,50 A 100,100 0 0,1 0,100" stroke="url(#cl3)" />
-                        <path d="M 0,100 A 100,100 0 0,1 -86.6,50" stroke="url(#cl4)" />
-                        <path d="M -86.6,50 A 100,100 0 0,1 -86.6,-50" stroke="url(#cl5)" />
-                        <path d="M -86.6,-50 A 100,100 0 0,1 0,-100" stroke="url(#cl6)" />
-                    </g>
-                </svg> <svg viewBox="-10 -10 220 220">
-                    <path d="M200,100 C200,44.771525 155.228475,0 100,0 C44.771525,0 0,44.771525 0,100 C0,155.228475 44.771525,200 100,200 C155.228475,200 200,155.228475 200,100 Z" stroke-dashoffset="{{ 6.3 * (score / 10000) * 100 }}"></path>
-                </svg>
-            </li>
-            <li data-name="Distance" data-percent="{{ 6.5 }}km">
-                <svg viewBox="-10 -10 220 220">
-                    <g fill="none" stroke-width="12" transform="translate(100,100)">
-                        <path d="M 0,-100 A 100,100 0 0,1 86.6,-50" stroke="url(#cl1)" />
-                        <path d="M 86.6,-50 A 100,100 0 0,1 86.6,50" stroke="url(#cl2)" />
-                        <path d="M 86.6,50 A 100,100 0 0,1 0,100" stroke="url(#cl3)" />
-                        <path d="M 0,100 A 100,100 0 0,1 -86.6,50" stroke="url(#cl4)" />
-                        <path d="M -86.6,50 A 100,100 0 0,1 -86.6,-50" stroke="url(#cl5)" />
-                        <path d="M -86.6,-50 A 100,100 0 0,1 0,-100" stroke="url(#cl6)" />
-                    </g>
-                </svg> <svg viewBox="-10 -10 220 220">
-                    <path d="M200,100 C200,44.771525 155.228475,0 100,0 C44.771525,0 0,44.771525 0,100 C0,155.228475 44.771525,200 100,200 C155.228475,200 200,155.228475 200,100 Z" stroke-dashoffset="{{ 6.3 * 30 }}"></path>
-                </svg>
-            </li>
-        </ul>
-        <svg width="0" height="0">
-            <defs>
-                <linearGradient id="cl1" gradientUnits="objectBoundingBox" x1="0" y1="0" x2="1" y2="1">
-                    <stop stop-color="#149fe7" />
-                    <stop offset="100%" stop-color="#0b91e0" />
-                </linearGradient>
-                <linearGradient id="cl2" gradientUnits="objectBoundingBox" x1="0" y1="0" x2="0" y2="1">
-                    <stop stop-color="#0b91e0" />
-                    <stop offset="100%" stop-color="#0091de" />
-                </linearGradient>
-                <linearGradient id="cl3" gradientUnits="objectBoundingBox" x1="1" y1="0" x2="0" y2="1">
-                    <stop stop-color="#0091de" />
-                    <stop offset="100%" stop-color="#33ace9" />
-                </linearGradient>
-                <linearGradient id="cl4" gradientUnits="objectBoundingBox" x1="1" y1="1" x2="0" y2="0">
-                    <stop stop-color="#33ace9" />
-                    <stop offset="100%" stop-color="#30a4e3" />
-                </linearGradient>
-                <linearGradient id="cl5" gradientUnits="objectBoundingBox" x1="0" y1="1" x2="0" y2="0">
-                    <stop stop-color="#30a4e3" />
-                    <stop offset="100%" stop-color="#269fe6" />
-                </linearGradient>
-                <linearGradient id="cl6" gradientUnits="objectBoundingBox" x1="0" y1="1" x2="1" y2="0">
-                    <stop stop-color="#269fe6" />
-                    <stop offset="100%" stop-color="#119ae8" />
-                </linearGradient>
-            </defs>
-        </svg>
-    </div> 
-    <a href="#/tab/races">
-        <button class="button button-block button-positive">
-          Join a Race
-      </button>
-    </a>
-
-    <div class="list card">
-        <div class="item item-divider">Recent Updates</div>
-        <div class="item item-body" ng-repeat="workout in recent track by $index  | limitTo: 7">
-            <div>
-                <b>{{workout.updatedAt | date: 'longDate'}}</b> {{workout.statement}}
+    <ion-content class="padding" ng-show="!isInActiveRace">
+        <div style="text-align: center" ng-show="organizationHasActiveRace">
+            <h1>Welcome!</h1>
+            <div ng-show="activeRaceHasStarted">
+            <p style="margin-left: 10%; margin-right: 10%;">There is an active race you can join! It has already started, but you can still join and help out your team!</p>
+            </div>
+            <div ng-show="!activeRaceHasStarted">
+            There is an upcoming race you can participate in!
+            </div>
+            <div class="list card">
+                <div class="item item-divider">
+                  <h1>{{activeRace.name}}</h1>
+                </div>
+                <div class="item item-text-wrap">
+                  <h2>{{activeRace.type.label}}</h2>
+                  <h3>{{activeRace.type.description}}</h3>
+                  <h3>{{activeRace.startDate.iso | date:'MMMM dd, yyyy'}} to {{activeRace.endDate.iso | date:'MMMM dd, yyyy'}}</h3>
+                  <button ng-click="openModal(activeRace)" class="button button-full button-balanced">
+                    Join This Race!
+                  </button>
+                </div>
             </div>
         </div>
-    </div>
-</ion-content>
+        <div ng-hide="organizationHasActiveRace">
+        No active race...
+        </div>
+    </ion-content>
+    <ion-content class="padding" ng-show="isInActiveRace">
+        <div ng-show="raceHasStarted()">
+
+        </div>
+        <div ng-show="!raceHasStarted()">
+        
+        </div>
+        <div class="date-container">
+          <a class="date-inline date-left button icon-left ion-chevron-left button-clear button dark"></a>
+          <div class="date date-center date-inline ">April 28, 2015</div>
+          <a class="date-inline date-right button icon-right ion-chevron-right button-clear button dark"></a>
+        </div>
+        <hr class="date-divider" />
+        <div class="sub-container">
+            <canvas id="bar" class="chart chart-bar" data="data" labels="labels"></canvas> 
+        </div>
+        <div class="sub-container">
+            <ul class="progress">
+                <li data-name="Steps" data-percent="{{ score }}">
+                    <svg viewBox="-10 -10 220 220">
+                        <g fill="none" stroke-width="12" transform="translate(100,100)">
+                            <path d="M 0,-100 A 100,100 0 0,1 86.6,-50" stroke="url(#cl1)" />
+                            <path d="M 86.6,-50 A 100,100 0 0,1 86.6,50" stroke="url(#cl2)" />
+                            <path d="M 86.6,50 A 100,100 0 0,1 0,100" stroke="url(#cl3)" />
+                            <path d="M 0,100 A 100,100 0 0,1 -86.6,50" stroke="url(#cl4)" />
+                            <path d="M -86.6,50 A 100,100 0 0,1 -86.6,-50" stroke="url(#cl5)" />
+                            <path d="M -86.6,-50 A 100,100 0 0,1 0,-100" stroke="url(#cl6)" />
+                        </g>
+                    </svg> <svg viewBox="-10 -10 220 220">
+                        <path d="M200,100 C200,44.771525 155.228475,0 100,0 C44.771525,0 0,44.771525 0,100 C0,155.228475 44.771525,200 100,200 C155.228475,200 200,155.228475 200,100 Z" stroke-dashoffset="{{ 6.3 * (score / 10000) * 100 }}"></path>
+                    </svg>
+                </li>
+                <li data-name="Distance" data-percent="{{ 6.5 }}km">
+                    <svg viewBox="-10 -10 220 220">
+                        <g fill="none" stroke-width="12" transform="translate(100,100)">
+                            <path d="M 0,-100 A 100,100 0 0,1 86.6,-50" stroke="url(#cl1)" />
+                            <path d="M 86.6,-50 A 100,100 0 0,1 86.6,50" stroke="url(#cl2)" />
+                            <path d="M 86.6,50 A 100,100 0 0,1 0,100" stroke="url(#cl3)" />
+                            <path d="M 0,100 A 100,100 0 0,1 -86.6,50" stroke="url(#cl4)" />
+                            <path d="M -86.6,50 A 100,100 0 0,1 -86.6,-50" stroke="url(#cl5)" />
+                            <path d="M -86.6,-50 A 100,100 0 0,1 0,-100" stroke="url(#cl6)" />
+                        </g>
+                    </svg> <svg viewBox="-10 -10 220 220">
+                        <path d="M200,100 C200,44.771525 155.228475,0 100,0 C44.771525,0 0,44.771525 0,100 C0,155.228475 44.771525,200 100,200 C155.228475,200 200,155.228475 200,100 Z" stroke-dashoffset="{{ 6.3 * 30 }}"></path>
+                    </svg>
+                </li>
+            </ul>
+            <svg width="0" height="0">
+                <defs>
+                    <linearGradient id="cl1" gradientUnits="objectBoundingBox" x1="0" y1="0" x2="1" y2="1">
+                        <stop stop-color="#149fe7" />
+                        <stop offset="100%" stop-color="#0b91e0" />
+                    </linearGradient>
+                    <linearGradient id="cl2" gradientUnits="objectBoundingBox" x1="0" y1="0" x2="0" y2="1">
+                        <stop stop-color="#0b91e0" />
+                        <stop offset="100%" stop-color="#0091de" />
+                    </linearGradient>
+                    <linearGradient id="cl3" gradientUnits="objectBoundingBox" x1="1" y1="0" x2="0" y2="1">
+                        <stop stop-color="#0091de" />
+                        <stop offset="100%" stop-color="#33ace9" />
+                    </linearGradient>
+                    <linearGradient id="cl4" gradientUnits="objectBoundingBox" x1="1" y1="1" x2="0" y2="0">
+                        <stop stop-color="#33ace9" />
+                        <stop offset="100%" stop-color="#30a4e3" />
+                    </linearGradient>
+                    <linearGradient id="cl5" gradientUnits="objectBoundingBox" x1="0" y1="1" x2="0" y2="0">
+                        <stop stop-color="#30a4e3" />
+                        <stop offset="100%" stop-color="#269fe6" />
+                    </linearGradient>
+                    <linearGradient id="cl6" gradientUnits="objectBoundingBox" x1="0" y1="1" x2="1" y2="0">
+                        <stop stop-color="#269fe6" />
+                        <stop offset="100%" stop-color="#119ae8" />
+                    </linearGradient>
+                </defs>
+            </svg>
+        </div> 
+        <a href="#/tab/races">
+            <button class="button button-block button-positive">
+              Join a Race
+          </button>
+        </a>
+
+        <div class="list card">
+            <div class="item item-divider">Recent Updates</div>
+            <div class="item item-body" ng-repeat="workout in recent track by $index  | limitTo: 7">
+                <div>
+                    <b>{{workout.updatedAt | date: 'longDate'}}</b> {{workout.statement}}
+                </div>
+            </div>
+        </div>
+    </ion-content>
 </ion-view>

@@ -7,23 +7,23 @@
         <div class="item item-text-wrap">
           <h2>{{race.type.label}}</h2>
           <h3>{{race.type.description}}</h3>
-          <button ng-click="openModal(race)" class="button button-full button-balanced">
+          <h3>{{race.startDate.iso | date:'MMMM dd, yyyy'}} to {{race.endDate.iso | date:'MMMM dd, yyyy'}}</h3>
+          <!--<button ng-click="openModal(race)" class="button button-full button-balanced">
             Join This Race!
-          </button>
+          </button>-->
           <button ng-click="deleteRace(race)" ng-show="canDelete" class="button button-full button-assertive">
-            Delete
+            Cancel and Delete
           </button>
         </div>
     </div>
     <center>
-    <a class="button button-clear button-positive icon icon-right ion-flag" href="#/tab/races/createrace" ng-show="races.length > 0">Create A Race</a>
+    <!--<a class="button button-clear button-positive icon icon-right ion-flag" href="#/tab/races/createrace" ng-show="races.length > 0">Create A Race</a>
     </center>
-    <div ng-hide="races.length > 0">
-      <center>
+    -->
+    <div ng-hide="races.length > 0" style="text-align: center">
     No races found... but you can...
       <br>
       <a class="button button-clear button-positive icon icon-right ion-flag" href="#/tab/races/createrace">Create One</a>
-      </center>
     </div>
   </ion-content>
 </ion-view>

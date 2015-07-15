@@ -4,7 +4,7 @@
 /* jshint -W117 */
 angular.module('solfit.controllers', [])
 
-.controller('DashCtrl', function($scope, $rootScope, AuthenticationService, DashboardService, WorkoutService) {
+.controller('DashCtrl', function($scope, $rootScope, AuthenticationService, DashboardService, WorkoutService, RaceService) {
 
   $scope.labels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
   $scope.series = ['Series A', 'Series B'];
@@ -23,10 +23,33 @@ angular.module('solfit.controllers', [])
 
       DashboardService.activeRacesByUser($scope.currentUser.objectId).then(function(result) {
         console.log(result);
-        if (result.data.size > 0)
+        if (result.data.results.length > 0)
         {
           $scope.isInActiveRace = true;
-          $scope.activeRace = result.data;
+          $scope.activeTeam = result.data.results[0];
+          console.log($scope.activeTeam);
+        }
+        else
+        {
+          $scope.isInActiveRace = false;
+          $scope.activeTeam = null;
+        }
+      });
+
+      RaceService.getRacesByOrganization($scope.currentUser.code).then(function(result) {
+        if (result.data.results.length > 0)
+        {
+          $scope.organizationHasActiveRace = true;
+          $scope.activeRace = result.data.results[0];
+          $scope.activeRaceHasStarted = new Date($scope.activeRace.startDateString) < new Date();
+          console.log($scope.activeRaceHasStarted);
+          console.log("active race: ");
+          console.log($scope.activeRace);
+        }
+        else
+        {
+          $scope.organizationHasActiveRace = false;
+          $scope.activeRace = null;
         }
       });
 
